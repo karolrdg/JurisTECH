@@ -31,10 +31,16 @@ export function getErrorMessage(error: unknown): string {
   if (error instanceof AxiosError) {
     if (!error.response) return "Não foi possível conectar ao servidor. Verifique sua conexão.";
     const s = error.response.status;
-    if (s === 400) return error.response.data?.title ?? "Dados inválidos. Revise os campos.";
-    if (s === 401) return "Sua sessão expirou. Entre novamente.";
+    if (s === 400)
+      return (
+        error.response.data?.message ??
+        error.response.data?.title ??
+        "Dados inválidos. Revise os campos."
+      );
+    if (s === 401) return error.response.data?.message ?? "Sua sessão expirou. Entre novamente.";
     if (s === 403) return "Você não tem permissão para esta ação.";
     if (s === 404) return "Registro não encontrado.";
+    if (s === 409) return error.response.data?.message ?? "Conflito com um registro existente.";
     if (s >= 500) return "Erro no servidor. Tente novamente em instantes.";
   }
   if (error instanceof Error) return error.message;

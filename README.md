@@ -32,7 +32,7 @@ Login (JWT), dashboard com indicadores, CRUD de clientes, processos, prazos e ta
 ## Stack
 
 - Frontend: React 19 + TypeScript, Vite, Tailwind CSS v4, shadcn/ui, Lucide, TanStack Router (roteamento de arquivos), TanStack Query, Axios, React Hook Form, Zod.
-- Backend (a implementar): ASP.NET Core Web API, EF Core, JWT, Swagger.
+- Backend: ASP.NET Core 8 Web API, EF Core, JWT, Swagger — pasta `backend/` (veja backend/README.md).
 - Banco: SQL Server (acessado apenas pela API).
 
 ```
