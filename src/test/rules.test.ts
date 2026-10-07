@@ -5,13 +5,19 @@ const today = new Date("2026-10-06T12:00:00");
 
 describe("prazo status", () => {
   it("pending deadline in the past is Atrasado", () => {
-    expect(getPrazoStatus({ status: "Pendente", dataLimite: "2026-10-05" }, today)).toBe("Atrasado");
+    expect(getPrazoStatus({ status: "Pendente", dataLimite: "2026-10-05" }, today)).toBe(
+      "Atrasado",
+    );
   });
   it("deadline due today stays Pendente", () => {
-    expect(getPrazoStatus({ status: "Pendente", dataLimite: "2026-10-06" }, today)).toBe("Pendente");
+    expect(getPrazoStatus({ status: "Pendente", dataLimite: "2026-10-06" }, today)).toBe(
+      "Pendente",
+    );
   });
   it("completed deadline is never Atrasado", () => {
-    expect(getPrazoStatus({ status: "Concluído", dataLimite: "2026-01-01" }, today)).toBe("Concluído");
+    expect(getPrazoStatus({ status: "Concluído", dataLimite: "2026-01-01" }, today)).toBe(
+      "Concluído",
+    );
   });
 });
 

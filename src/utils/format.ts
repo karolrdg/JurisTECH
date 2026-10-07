@@ -20,7 +20,10 @@ export function daysUntil(iso: string, today: Date = new Date()): number {
 }
 
 /** A pending deadline whose date has passed is "Atrasado". */
-export function getPrazoStatus(p: Pick<PrazoDto, "status" | "dataLimite">, today: Date = new Date()): PrazoStatus {
+export function getPrazoStatus(
+  p: Pick<PrazoDto, "status" | "dataLimite">,
+  today: Date = new Date(),
+): PrazoStatus {
   if (p.status === "Concluído") return "Concluído";
   return daysUntil(p.dataLimite, today) < 0 ? "Atrasado" : "Pendente";
 }

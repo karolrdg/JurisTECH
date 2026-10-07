@@ -4,7 +4,13 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Field, NativeSelect } from "@/components/common/Field";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { prazosHooks } from "@/hooks/useResource";
@@ -25,7 +31,9 @@ export function PrazoDialog({
   defaultProcessoId?: string | undefined;
 }) {
   const { create, update } = prazosHooks.useMutations();
-  const { register, handleSubmit, reset, formState } = useForm<PrazoForm>({ resolver: zodResolver(prazoSchema) });
+  const { register, handleSubmit, reset, formState } = useForm<PrazoForm>({
+    resolver: zodResolver(prazoSchema),
+  });
 
   useEffect(() => {
     if (open)
@@ -59,7 +67,11 @@ export function PrazoDialog({
           <Field label="Processo" error={e.processoId?.message} required>
             <NativeSelect {...register("processoId")}>
               <option value="">Selecione um processo</option>
-              {processos.map((p) => <option key={p.id} value={p.id}>{p.titulo} — {p.numeroProcesso}</option>)}
+              {processos.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.titulo} — {p.numeroProcesso}
+                </option>
+              ))}
             </NativeSelect>
           </Field>
           <Field label="Título" error={e.titulo?.message} required>
@@ -71,7 +83,9 @@ export function PrazoDialog({
             </Field>
             <Field label="Prioridade" required>
               <NativeSelect {...register("prioridade")}>
-                {PRIORIDADES.map((p) => <option key={p}>{p}</option>)}
+                {PRIORIDADES.map((p) => (
+                  <option key={p}>{p}</option>
+                ))}
               </NativeSelect>
             </Field>
           </div>
@@ -83,7 +97,9 @@ export function PrazoDialog({
             Marcar como concluído
           </label>
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancelar</Button>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+              Cancelar
+            </Button>
             <Button type="submit" disabled={busy}>
               {busy && <Loader2 className="size-4 animate-spin" aria-hidden />}
               Salvar

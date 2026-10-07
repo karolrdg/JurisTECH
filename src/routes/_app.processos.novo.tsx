@@ -22,7 +22,10 @@ function NovoProcesso() {
   const { create } = processosHooks.useMutations();
   return (
     <>
-      <PageHeader title="Novo processo" breadcrumbs={[{ label: "Processos", to: "/processos" }, { label: "Novo" }]} />
+      <PageHeader
+        title="Novo processo"
+        breadcrumbs={[{ label: "Processos", to: "/processos" }, { label: "Novo" }]}
+      />
       {clientes.isLoading ? (
         <LoadingState />
       ) : (
@@ -30,7 +33,11 @@ function NovoProcesso() {
           clientes={clientes.data ?? []}
           submitting={create.isPending}
           onCancel={() => navigate({ to: "/processos" })}
-          onSubmit={(v) => create.mutate(v, { onSuccess: (p) => navigate({ to: "/processos/$id", params: { id: p.id } }) })}
+          onSubmit={(v) =>
+            create.mutate(v, {
+              onSuccess: (p) => navigate({ to: "/processos/$id", params: { id: p.id } }),
+            })
+          }
         />
       )}
     </>

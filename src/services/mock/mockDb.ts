@@ -23,10 +23,26 @@ export function getDb(): Db {
       prazos: mockDeadlines(),
       tarefas: mockTasks(),
       atividades: [
-        { id: "a1", descricao: "Processo “Ação de cobrança” atualizado para Em andamento.", data: new Date(Date.now() - 36e5).toISOString() },
-        { id: "a2", descricao: "Cliente Maria Aparecida Souza cadastrada.", data: new Date(Date.now() - 5 * 36e5).toISOString() },
-        { id: "a3", descricao: "Prazo “Contestação” concluído.", data: new Date(Date.now() - 26 * 36e5).toISOString() },
-        { id: "a4", descricao: "Tarefa “Reunir documentos” criada.", data: new Date(Date.now() - 50 * 36e5).toISOString() },
+        {
+          id: "a1",
+          descricao: "Processo “Ação de cobrança” atualizado para Em andamento.",
+          data: new Date(Date.now() - 36e5).toISOString(),
+        },
+        {
+          id: "a2",
+          descricao: "Cliente Maria Aparecida Souza cadastrada.",
+          data: new Date(Date.now() - 5 * 36e5).toISOString(),
+        },
+        {
+          id: "a3",
+          descricao: "Prazo “Contestação” concluído.",
+          data: new Date(Date.now() - 26 * 36e5).toISOString(),
+        },
+        {
+          id: "a4",
+          descricao: "Tarefa “Reunir documentos” criada.",
+          data: new Date(Date.now() - 50 * 36e5).toISOString(),
+        },
       ],
     };
   }
@@ -34,7 +50,11 @@ export function getDb(): Db {
 }
 
 export function logActivity(descricao: string) {
-  getDb().atividades.unshift({ id: crypto.randomUUID(), descricao, data: new Date().toISOString() });
+  getDb().atividades.unshift({
+    id: crypto.randomUUID(),
+    descricao,
+    data: new Date().toISOString(),
+  });
 }
 
 export const delay = (ms = 350) => new Promise((r) => setTimeout(r, ms));

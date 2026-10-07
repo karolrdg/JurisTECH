@@ -33,13 +33,16 @@ export const Route = createFileRoute("/_app/processos/$id")({
 function Info({ label, value }: { label: string; value?: string | null | undefined }) {
   return (
     <div>
-      <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</dt>
+      <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        {label}
+      </dt>
       <dd className="mt-1 whitespace-pre-line text-sm">{value || "—"}</dd>
     </div>
   );
 }
 
-type Del = { kind: "processo" } | { kind: "prazo"; item: PrazoDto } | { kind: "tarefa"; item: TarefaDto };
+type Del =
+  { kind: "processo" } | { kind: "prazo"; item: PrazoDto } | { kind: "tarefa"; item: TarefaDto };
 
 function ProcessoDetalhe() {
   const { id } = Route.useParams();
@@ -55,27 +58,40 @@ function ProcessoDetalhe() {
   const [prazoEdit, setPrazoEdit] = useState<PrazoDto | null | undefined>(undefined);
   const [tarefaEdit, setTarefaEdit] = useState<TarefaDto | null | undefined>(undefined);
   const [del, setDel] = useState<Del | null>(null);
-  const setEditing = (v: boolean) => navigate({ to: "/processos/$id", params: { id }, search: v ? { editar: true } : {} });
+  const setEditing = (v: boolean) =>
+    navigate({ to: "/processos/$id", params: { id }, search: v ? { editar: true } : {} });
 
   if (q.isLoading) return <LoadingState />;
-  if (q.isError || !q.data) return <ErrorState message={q.error?.message} onRetry={() => q.refetch()} />;
+  if (q.isError || !q.data)
+    return <ErrorState message={q.error?.message} onRetry={() => q.refetch()} />;
   const p = q.data;
   const crumbs = [{ label: "Processos", to: "/processos" }, { label: p.numeroProcesso }];
-  const meusPrazos = (prazos.data ?? []).filter((x) => x.processoId === id).sort((a, b) => a.dataLimite.localeCompare(b.dataLimite));
+  const meusPrazos = (prazos.data ?? [])
+    .filter((x) => x.processoId === id)
+    .sort((a, b) => a.dataLimite.localeCompare(b.dataLimite));
   const minhasTarefas = (tarefas.data ?? []).filter((x) => x.processoId === id);
 
   if (editar) {
     return (
       <>
         <PageHeader title="Editar processo" breadcrumbs={crumbs} />
-        <ProcessoFormView initial={p} clientes={lk.clientes} submitting={pm.update.isPending} onCancel={() => setEditing(false)} onSubmit={(v) => pm.update.mutate({ id, input: v }, { onSuccess: () => setEditing(false) })} />
+        <ProcessoFormView
+          initial={p}
+          clientes={lk.clientes}
+          submitting={pm.update.isPending}
+          onCancel={() => setEditing(false)}
+          onSubmit={(v) =>
+            pm.update.mutate({ id, input: v }, { onSuccess: () => setEditing(false) })
+          }
+        />
       </>
     );
   }
 
   const confirmDelete = () => {
     if (!del) return;
-    if (del.kind === "processo") pm.remove.mutate(id, { onSuccess: () => navigate({ to: "/processos" }) });
+    if (del.kind === "processo")
+      pm.remove.mutate(id, { onSuccess: () => navigate({ to: "/processos" }) });
     if (del.kind === "prazo") prm.remove.mutate(del.item.id, { onSuccess: () => setDel(null) });
     if (del.kind === "tarefa") tm.remove.mutate(del.item.id, { onSuccess: () => setDel(null) });
   };
@@ -88,19 +104,39 @@ function ProcessoDetalhe() {
         breadcrumbs={crumbs}
         actions={
           <>
-            <Button variant="outline" onClick={() => setEditing(true)}><Pencil className="size-4" aria-hidden />Editar</Button>
-            <Button variant="outline" className="text-destructive" onClick={() => setDel({ kind: "processo" })}><Trash2 className="size-4" aria-hidden />Excluir</Button>
+            <Button variant="outline" onClick={() => setEditing(true)}>
+              <Pencil className="size-4" aria-hidden />
+              Editar
+            </Button>
+            <Button
+              variant="outline"
+              className="text-destructive"
+              onClick={() => setDel({ kind: "processo" })}
+            >
+              <Trash2 className="size-4" aria-hidden />
+              Excluir
+            </Button>
           </>
         }
       />
       <div className="grid gap-6 lg:grid-cols-3">
         <section className="surface p-6" aria-label="Dados do processo">
-          <div className="mb-5"><StatusBadge status={p.status} /></div>
+          <div className="mb-5">
+            <StatusBadge status={p.status} />
+          </div>
           <dl className="grid gap-4">
             <div>
-              <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Cliente</dt>
+              <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                Cliente
+              </dt>
               <dd className="mt-1 text-sm">
-                <Link to="/clientes/$id" params={{ id: p.clienteId }} className="font-semibold text-primary hover:underline">{lk.clienteNome(p.clienteId)}</Link>
+                <Link
+                  to="/clientes/$id"
+                  params={{ id: p.clienteId }}
+                  className="font-semibold text-primary hover:underline"
+                >
+                  {lk.clienteNome(p.clienteId)}
+                </Link>
               </dd>
             </div>
             <Info label="Área" value={p.areaJuridica} />
@@ -113,19 +149,33 @@ function ProcessoDetalhe() {
         <div className="space-y-6 lg:col-span-2">
           <section className="surface overflow-hidden" aria-labelledby="h-prazos">
             <div className="flex items-center justify-between border-b px-5 py-4">
-              <h2 id="h-prazos" className="text-base font-bold">Prazos ({meusPrazos.length})</h2>
-              <Button size="sm" variant="outline" onClick={() => setPrazoEdit(null)}><Plus className="size-4" aria-hidden />Prazo</Button>
+              <h2 id="h-prazos" className="text-base font-bold">
+                Prazos ({meusPrazos.length})
+              </h2>
+              <Button size="sm" variant="outline" onClick={() => setPrazoEdit(null)}>
+                <Plus className="size-4" aria-hidden />
+                Prazo
+              </Button>
             </div>
             {meusPrazos.length === 0 ? (
               <EmptyState icon={CalendarClock} title="Nenhum prazo para este processo." />
             ) : (
-              <PrazoList prazos={meusPrazos} onEdit={setPrazoEdit} onDelete={(item) => setDel({ kind: "prazo", item })} />
+              <PrazoList
+                prazos={meusPrazos}
+                onEdit={setPrazoEdit}
+                onDelete={(item) => setDel({ kind: "prazo", item })}
+              />
             )}
           </section>
           <section className="surface overflow-hidden" aria-labelledby="h-tarefas">
             <div className="flex items-center justify-between border-b px-5 py-4">
-              <h2 id="h-tarefas" className="text-base font-bold">Tarefas ({minhasTarefas.length})</h2>
-              <Button size="sm" variant="outline" onClick={() => setTarefaEdit(null)}><Plus className="size-4" aria-hidden />Tarefa</Button>
+              <h2 id="h-tarefas" className="text-base font-bold">
+                Tarefas ({minhasTarefas.length})
+              </h2>
+              <Button size="sm" variant="outline" onClick={() => setTarefaEdit(null)}>
+                <Plus className="size-4" aria-hidden />
+                Tarefa
+              </Button>
             </div>
             {minhasTarefas.length === 0 ? (
               <EmptyState icon={CheckSquare} title="Nenhuma tarefa para este processo." />
@@ -134,18 +184,34 @@ function ProcessoDetalhe() {
                 tarefas={minhasTarefas}
                 onEdit={setTarefaEdit}
                 onDelete={(item) => setDel({ kind: "tarefa", item })}
-                onComplete={(t) => tm.update.mutate({ id: t.id, input: { ...t, status: "Concluída" } })}
+                onComplete={(t) =>
+                  tm.update.mutate({ id: t.id, input: { ...t, status: "Concluída" } })
+                }
               />
             )}
           </section>
         </div>
       </div>
-      <PrazoDialog open={prazoEdit !== undefined} onOpenChange={(o) => !o && setPrazoEdit(undefined)} initial={prazoEdit} processos={lk.processos} defaultProcessoId={id} />
-      <TarefaDialog open={tarefaEdit !== undefined} onOpenChange={(o) => !o && setTarefaEdit(undefined)} initial={tarefaEdit} processos={lk.processos} defaultProcessoId={id} />
+      <PrazoDialog
+        open={prazoEdit !== undefined}
+        onOpenChange={(o) => !o && setPrazoEdit(undefined)}
+        initial={prazoEdit}
+        processos={lk.processos}
+        defaultProcessoId={id}
+      />
+      <TarefaDialog
+        open={tarefaEdit !== undefined}
+        onOpenChange={(o) => !o && setTarefaEdit(undefined)}
+        initial={tarefaEdit}
+        processos={lk.processos}
+        defaultProcessoId={id}
+      />
       <ConfirmDialog
         open={!!del}
         onOpenChange={(o) => !o && setDel(null)}
-        title={del?.kind === "processo" ? "Tem certeza que deseja excluir este processo?" : undefined}
+        title={
+          del?.kind === "processo" ? "Tem certeza que deseja excluir este processo?" : undefined
+        }
         loading={pm.remove.isPending || prm.remove.isPending || tm.remove.isPending}
         onConfirm={confirmDelete}
       />

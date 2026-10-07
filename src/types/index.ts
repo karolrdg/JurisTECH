@@ -1,18 +1,8 @@
 export type ClienteStatus = "Ativo" | "Inativo";
 export type AreaJuridica =
-  | "Cível"
-  | "Trabalhista"
-  | "Família"
-  | "Consumidor"
-  | "Previdenciário"
-  | "Empresarial"
-  | "Outros";
+  "Cível" | "Trabalhista" | "Família" | "Consumidor" | "Previdenciário" | "Empresarial" | "Outros";
 export type ProcessoStatus =
-  | "Novo"
-  | "Em andamento"
-  | "Aguardando decisão"
-  | "Suspenso"
-  | "Encerrado";
+  "Novo" | "Em andamento" | "Aguardando decisão" | "Suspenso" | "Encerrado";
 export type Prioridade = "Baixa" | "Média" | "Alta" | "Urgente";
 export type PrazoStatus = "Pendente" | "Concluído" | "Atrasado";
 export type TarefaStatus = "Pendente" | "Em andamento" | "Concluída";

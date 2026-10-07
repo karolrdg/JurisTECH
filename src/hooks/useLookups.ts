@@ -13,7 +13,8 @@ export function useLookups() {
       processos: processos.data ?? [],
       clienteNome: (id: string) => clienteById.get(id)?.nomeCompleto ?? "—",
       processo: (id: string) => processoById.get(id),
-      clienteDoProcesso: (processoId: string) => clienteById.get(processoById.get(processoId)?.clienteId ?? "")?.nomeCompleto ?? "—",
+      clienteDoProcesso: (processoId: string) =>
+        clienteById.get(processoById.get(processoId)?.clienteId ?? "")?.nomeCompleto ?? "—",
     };
   }, [clientes.data, processos.data]);
 }

@@ -31,7 +31,11 @@ export function Field({
     <div className={cn("space-y-1.5", className)}>
       <Label htmlFor={id} className="text-sm font-semibold">
         {label}
-        {required && <span className="ml-0.5 text-destructive" aria-hidden>*</span>}
+        {required && (
+          <span className="ml-0.5 text-destructive" aria-hidden>
+            *
+          </span>
+        )}
       </Label>
       {control}
       {hint && !error && <p className="text-xs text-muted-foreground">{hint}</p>}

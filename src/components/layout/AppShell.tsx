@@ -1,5 +1,14 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { CalendarClock, Briefcase, CheckSquare, LayoutDashboard, LogOut, Menu, Settings, Users } from "lucide-react";
+import {
+  CalendarClock,
+  Briefcase,
+  CheckSquare,
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  Settings,
+  Users,
+} from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
@@ -25,7 +34,11 @@ function NavList({ onNavigate }: { onNavigate?: (() => void) | undefined }) {
           to={to}
           onClick={onNavigate}
           className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-sidebar-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-          activeProps={{ className: "bg-sidebar-accent text-sidebar-accent-foreground [&>svg]:text-sidebar-primary", "aria-current": "page" }}
+          activeProps={{
+            className:
+              "bg-sidebar-accent text-sidebar-accent-foreground [&>svg]:text-sidebar-primary",
+            "aria-current": "page",
+          }}
         >
           <Icon className="size-4.5" aria-hidden />
           {label}
@@ -44,7 +57,9 @@ function SidebarBody({ onNavigate }: { onNavigate?: (() => void) | undefined }) 
       <NavList onNavigate={onNavigate} />
       <div className="mx-4 mt-6 rounded-xl border border-sidebar-border bg-sidebar-accent/60 p-4 text-xs text-sidebar-foreground">
         <p className="font-semibold text-sidebar-accent-foreground">Ferramenta administrativa</p>
-        <p className="mt-1 leading-relaxed">Não fornece aconselhamento jurídico. Dados de demonstração fictícios.</p>
+        <p className="mt-1 leading-relaxed">
+          Não fornece aconselhamento jurídico. Dados de demonstração fictícios.
+        </p>
       </div>
     </div>
   );
@@ -62,7 +77,10 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex min-h-screen">
-      <a href="#conteudo" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-card focus:px-3 focus:py-2">
+      <a
+        href="#conteudo"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-card focus:px-3 focus:py-2"
+      >
         Pular para o conteúdo
       </a>
       <aside className="sticky top-0 hidden h-screen w-64 shrink-0 lg:block">
@@ -76,7 +94,13 @@ export function AppShell({ children }: { children: ReactNode }) {
       </Sheet>
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b bg-background/85 px-4 backdrop-blur sm:px-6 lg:px-8">
-          <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setOpen(true)} aria-label="Abrir menu">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="lg:hidden"
+            onClick={() => setOpen(true)}
+            aria-label="Abrir menu"
+          >
             <Menu className="size-5" />
           </Button>
           <Logo className="lg:hidden" />
@@ -85,7 +109,10 @@ export function AppShell({ children }: { children: ReactNode }) {
               <p className="text-sm font-semibold leading-tight">{user?.nome}</p>
               <p className="text-xs text-muted-foreground">{user?.email}</p>
             </div>
-            <span className="grid size-9 place-items-center rounded-full bg-accent text-sm font-bold text-accent-foreground" aria-hidden>
+            <span
+              className="grid size-9 place-items-center rounded-full bg-accent text-sm font-bold text-accent-foreground"
+              aria-hidden
+            >
               {initials(user?.nome ?? "")}
             </span>
             <Button variant="ghost" size="icon" onClick={handleLogout} aria-label="Sair">
@@ -93,7 +120,10 @@ export function AppShell({ children }: { children: ReactNode }) {
             </Button>
           </div>
         </header>
-        <main id="conteudo" className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+        <main
+          id="conteudo"
+          className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-8"
+        >
           {children}
         </main>
       </div>

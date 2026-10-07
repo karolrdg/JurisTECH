@@ -66,7 +66,9 @@ export const dashboardService = {
     return {
       processosAtivos: db.processos.filter((p) => p.status !== "Encerrado").length,
       clientesAtivos: db.clientes.filter((c) => c.status === "Ativo").length,
-      prazosProximos: db.prazos.filter((p) => getPrazoStatus(p) === "Pendente" && daysUntil(p.dataLimite) <= 7).length,
+      prazosProximos: db.prazos.filter(
+        (p) => getPrazoStatus(p) === "Pendente" && daysUntil(p.dataLimite) <= 7,
+      ).length,
       tarefasPendentes: db.tarefas.filter((t) => t.status !== "Concluída").length,
       atividades: db.atividades.slice(0, 6),
     };

@@ -1,4 +1,16 @@
-import { AlertOctagon, ArrowDown, ArrowUp, CheckCircle2, Circle, Clock, Minus, PauseCircle, Sparkles, XCircle, type LucideIcon } from "lucide-react";
+import {
+  AlertOctagon,
+  ArrowDown,
+  ArrowUp,
+  CheckCircle2,
+  Circle,
+  Clock,
+  Minus,
+  PauseCircle,
+  Sparkles,
+  XCircle,
+  type LucideIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Prioridade } from "@/types";
 
@@ -13,9 +25,22 @@ const toneClass: Record<Tone, string> = {
   teal: "bg-accent text-accent-foreground border-brand-teal/25",
 };
 
-export function Pill({ tone, icon: Icon, children }: { tone: Tone; icon?: LucideIcon | undefined; children: string }) {
+export function Pill({
+  tone,
+  icon: Icon,
+  children,
+}: {
+  tone: Tone;
+  icon?: LucideIcon | undefined;
+  children: string;
+}) {
   return (
-    <span className={cn("inline-flex items-center gap-1 whitespace-nowrap rounded-full border px-2 py-0.5 text-xs font-semibold", toneClass[tone])}>
+    <span
+      className={cn(
+        "inline-flex items-center gap-1 whitespace-nowrap rounded-full border px-2 py-0.5 text-xs font-semibold",
+        toneClass[tone],
+      )}
+    >
       {Icon && <Icon className="size-3.5" aria-hidden />}
       {children}
     </span>

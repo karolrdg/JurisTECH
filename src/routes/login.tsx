@@ -15,9 +15,16 @@ export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
       { title: "Entrar — JURIS+TECH" },
-      { name: "description", content: "Acesse o JURIS+TECH, gestão administrativa de processos para escritórios de advocacia." },
+      {
+        name: "description",
+        content:
+          "Acesse o JURIS+TECH, gestão administrativa de processos para escritórios de advocacia.",
+      },
       { property: "og:title", content: "Entrar — JURIS+TECH" },
-      { property: "og:description", content: "Gestão administrativa de clientes, processos, prazos e tarefas." },
+      {
+        property: "og:description",
+        content: "Gestão administrativa de clientes, processos, prazos e tarefas.",
+      },
     ],
   }),
   component: LoginPage,
@@ -27,7 +34,10 @@ function LoginPage() {
   const { login, user, ready } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
-  const { register, handleSubmit, setValue, formState } = useForm<LoginForm>({ resolver: zodResolver(loginSchema), defaultValues: { email: "", password: "" } });
+  const { register, handleSubmit, setValue, formState } = useForm<LoginForm>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: "", password: "" },
+  });
 
   useEffect(() => {
     if (ready && user) navigate({ to: "/dashboard", replace: true });
@@ -46,11 +56,19 @@ function LoginPage() {
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
       <section className="relative hidden overflow-hidden bg-sidebar p-12 text-sidebar-foreground lg:flex lg:flex-col">
-        <div className="brand-gradient absolute -right-32 -top-32 size-96 rounded-full opacity-30 blur-3xl" aria-hidden />
-        <div className="brand-gradient absolute -bottom-40 -left-20 size-96 rounded-full opacity-20 blur-3xl" aria-hidden />
+        <div
+          className="brand-gradient absolute -right-32 -top-32 size-96 rounded-full opacity-30 blur-3xl"
+          aria-hidden
+        />
+        <div
+          className="brand-gradient absolute -bottom-40 -left-20 size-96 rounded-full opacity-20 blur-3xl"
+          aria-hidden
+        />
         <Logo inverted className="relative" />
         <div className="relative mt-auto max-w-md">
-          <h2 className="text-4xl font-bold leading-tight text-sidebar-accent-foreground">Seu escritório organizado, do cliente ao prazo.</h2>
+          <h2 className="text-4xl font-bold leading-tight text-sidebar-accent-foreground">
+            Seu escritório organizado, do cliente ao prazo.
+          </h2>
           <ul className="mt-8 space-y-4 text-sm">
             {[
               { icon: Users, t: "Clientes e processos em um só lugar" },
@@ -72,10 +90,15 @@ function LoginPage() {
         <div className="w-full max-w-sm">
           <Logo className="mb-10 lg:hidden" />
           <h1 className="text-2xl font-bold">Bem-vindo de volta</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Entre com suas credenciais para continuar.</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Entre com suas credenciais para continuar.
+          </p>
 
           {error && (
-            <div role="alert" className="mt-6 flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            <div
+              role="alert"
+              className="mt-6 flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+            >
               <AlertCircle className="size-4 shrink-0" aria-hidden />
               {error}
             </div>

@@ -20,11 +20,18 @@ function NovoCliente() {
   const { create } = clientesHooks.useMutations();
   return (
     <>
-      <PageHeader title="Novo cliente" breadcrumbs={[{ label: "Clientes", to: "/clientes" }, { label: "Novo" }]} />
+      <PageHeader
+        title="Novo cliente"
+        breadcrumbs={[{ label: "Clientes", to: "/clientes" }, { label: "Novo" }]}
+      />
       <ClienteFormView
         submitting={create.isPending}
         onCancel={() => navigate({ to: "/clientes" })}
-        onSubmit={(v) => create.mutate(v, { onSuccess: (c) => navigate({ to: "/clientes/$id", params: { id: c.id } }) })}
+        onSubmit={(v) =>
+          create.mutate(v, {
+            onSuccess: (c) => navigate({ to: "/clientes/$id", params: { id: c.id } }),
+          })
+        }
       />
     </>
   );

@@ -1,7 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import type { CrudService } from "@/services/crud";
-import { clientesService, dashboardService, prazosService, processosService, tarefasService } from "@/services";
+import {
+  clientesService,
+  dashboardService,
+  prazosService,
+  processosService,
+  tarefasService,
+} from "@/services";
 
 function makeHooks<T, I>(key: string, service: CrudService<T, I>, noun: string, g: "o" | "a") {
   return {
@@ -15,13 +21,21 @@ function makeHooks<T, I>(key: string, service: CrudService<T, I>, noun: string, 
       };
       const fail = (e: Error) => toast.error(e.message);
       return {
-        create: useMutation({ mutationFn: (i: I) => service.create(i), onSuccess: () => done(`${noun} cadastrad${g} com sucesso.`), onError: fail }),
+        create: useMutation({
+          mutationFn: (i: I) => service.create(i),
+          onSuccess: () => done(`${noun} cadastrad${g} com sucesso.`),
+          onError: fail,
+        }),
         update: useMutation({
           mutationFn: ({ id, input }: { id: string; input: I }) => service.update(id, input),
           onSuccess: () => done(`${noun} atualizad${g} com sucesso.`),
           onError: fail,
         }),
-        remove: useMutation({ mutationFn: (id: string) => service.remove(id), onSuccess: () => done(`${noun} excluíd${g} com sucesso.`), onError: fail }),
+        remove: useMutation({
+          mutationFn: (id: string) => service.remove(id),
+          onSuccess: () => done(`${noun} excluíd${g} com sucesso.`),
+          onError: fail,
+        }),
       };
     },
   };
@@ -32,4 +46,5 @@ export const processosHooks = makeHooks("processos", processosService, "Processo
 export const prazosHooks = makeHooks("prazos", prazosService, "Prazo", "o");
 export const tarefasHooks = makeHooks("tarefas", tarefasService, "Tarefa", "a");
 
-export const useDashboard = () => useQuery({ queryKey: ["dashboard"], queryFn: () => dashboardService.get() });
+export const useDashboard = () =>
+  useQuery({ queryKey: ["dashboard"], queryFn: () => dashboardService.get() });

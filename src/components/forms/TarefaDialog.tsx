@@ -4,12 +4,24 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Field, NativeSelect } from "@/components/common/Field";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { tarefasHooks } from "@/hooks/useResource";
 import { tarefaSchema, type TarefaForm } from "@/schemas";
-import { PRIORIDADES, TAREFA_STATUS, type ProcessoDto, type TarefaDto, type TarefaInput } from "@/types";
+import {
+  PRIORIDADES,
+  TAREFA_STATUS,
+  type ProcessoDto,
+  type TarefaDto,
+  type TarefaInput,
+} from "@/types";
 
 export function TarefaDialog({
   open,
@@ -25,7 +37,9 @@ export function TarefaDialog({
   defaultProcessoId?: string | undefined;
 }) {
   const { create, update } = tarefasHooks.useMutations();
-  const { register, handleSubmit, reset, formState } = useForm<TarefaForm>({ resolver: zodResolver(tarefaSchema) });
+  const { register, handleSubmit, reset, formState } = useForm<TarefaForm>({
+    resolver: zodResolver(tarefaSchema),
+  });
 
   useEffect(() => {
     if (open)
@@ -59,7 +73,11 @@ export function TarefaDialog({
           <Field label="Processo" error={e.processoId?.message} required>
             <NativeSelect {...register("processoId")}>
               <option value="">Selecione um processo</option>
-              {processos.map((p) => <option key={p.id} value={p.id}>{p.titulo} — {p.numeroProcesso}</option>)}
+              {processos.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.titulo} — {p.numeroProcesso}
+                </option>
+              ))}
             </NativeSelect>
           </Field>
           <Field label="Título" error={e.titulo?.message} required>
@@ -74,12 +92,16 @@ export function TarefaDialog({
             </Field>
             <Field label="Prioridade" required>
               <NativeSelect {...register("prioridade")}>
-                {PRIORIDADES.map((p) => <option key={p}>{p}</option>)}
+                {PRIORIDADES.map((p) => (
+                  <option key={p}>{p}</option>
+                ))}
               </NativeSelect>
             </Field>
             <Field label="Status" required>
               <NativeSelect {...register("status")}>
-                {TAREFA_STATUS.map((s) => <option key={s}>{s}</option>)}
+                {TAREFA_STATUS.map((s) => (
+                  <option key={s}>{s}</option>
+                ))}
               </NativeSelect>
             </Field>
           </div>
@@ -87,7 +109,9 @@ export function TarefaDialog({
             <Textarea rows={3} {...register("descricao")} />
           </Field>
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancelar</Button>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+              Cancelar
+            </Button>
             <Button type="submit" disabled={busy}>
               {busy && <Loader2 className="size-4 animate-spin" aria-hidden />}
               Salvar

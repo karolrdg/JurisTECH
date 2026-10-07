@@ -6,7 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { processoSchema, type ProcessoForm } from "@/schemas";
-import { AREAS, PROCESSO_STATUS, type ClienteDto, type ProcessoDto, type ProcessoInput } from "@/types";
+import {
+  AREAS,
+  PROCESSO_STATUS,
+  type ClienteDto,
+  type ProcessoDto,
+  type ProcessoInput,
+} from "@/types";
 import { toISODate } from "@/utils/format";
 
 export function ProcessoFormView({
@@ -40,17 +46,26 @@ export function ProcessoFormView({
   return (
     <form
       noValidate
-      onSubmit={handleSubmit((v) => onSubmit({ ...v, dataEncerramento: v.dataEncerramento || null } as ProcessoInput))}
+      onSubmit={handleSubmit((v) =>
+        onSubmit({ ...v, dataEncerramento: v.dataEncerramento || null } as ProcessoInput),
+      )}
       className="surface grid gap-5 p-5 sm:p-6 md:grid-cols-2"
     >
-      <Field label="Número do processo" error={e.numeroProcesso?.message} required hint="Ex.: 0000000-00.2026.0.00.0000">
+      <Field
+        label="Número do processo"
+        error={e.numeroProcesso?.message}
+        required
+        hint="Ex.: 0000000-00.2026.0.00.0000"
+      >
         <Input className="font-mono" {...register("numeroProcesso")} />
       </Field>
       <Field label="Cliente" error={e.clienteId?.message} required>
         <NativeSelect {...register("clienteId")}>
           <option value="">Selecione um cliente</option>
           {clientes.map((c) => (
-            <option key={c.id} value={c.id}>{c.nomeCompleto}</option>
+            <option key={c.id} value={c.id}>
+              {c.nomeCompleto}
+            </option>
           ))}
         </NativeSelect>
       </Field>
@@ -59,12 +74,16 @@ export function ProcessoFormView({
       </Field>
       <Field label="Área jurídica" required>
         <NativeSelect {...register("areaJuridica")}>
-          {AREAS.map((a) => <option key={a}>{a}</option>)}
+          {AREAS.map((a) => (
+            <option key={a}>{a}</option>
+          ))}
         </NativeSelect>
       </Field>
       <Field label="Status" required>
         <NativeSelect {...register("status")}>
-          {PROCESSO_STATUS.map((s) => <option key={s}>{s}</option>)}
+          {PROCESSO_STATUS.map((s) => (
+            <option key={s}>{s}</option>
+          ))}
         </NativeSelect>
       </Field>
       <Field label="Data de abertura" error={e.dataAbertura?.message} required>
@@ -80,7 +99,9 @@ export function ProcessoFormView({
         <Textarea rows={3} {...register("observacoes")} />
       </Field>
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end md:col-span-2">
-        <Button type="button" variant="outline" onClick={onCancel}>Cancelar</Button>
+        <Button type="button" variant="outline" onClick={onCancel}>
+          Cancelar
+        </Button>
         <Button type="submit" disabled={submitting}>
           {submitting && <Loader2 className="size-4 animate-spin" aria-hidden />}
           {initial ? "Salvar alterações" : "Cadastrar processo"}
