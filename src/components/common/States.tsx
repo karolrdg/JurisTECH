@@ -12,7 +12,7 @@ export function LoadingState({ label = "Carregando..." }: { label?: string | und
   );
 }
 
-export function ErrorState({ message, onRetry }: { message?: string | undefined; onRetry?: () => void | undefined }) {
+export function ErrorState({ message, onRetry }: { message?: string | undefined; onRetry?: (() => void) | undefined }) {
   return (
     <div role="alert" className="flex flex-col items-center justify-center gap-3 py-16 text-center">
       <span className="grid size-12 place-items-center rounded-full bg-destructive/10 text-destructive">
