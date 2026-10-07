@@ -20,9 +20,9 @@ export function TarefaDialog({
 }: {
   open: boolean;
   onOpenChange: (o: boolean) => void;
-  initial?: TarefaDto | null;
+  initial?: TarefaDto | null | undefined;
   processos: ProcessoDto[];
-  defaultProcessoId?: string;
+  defaultProcessoId?: string | undefined;
 }) {
   const { create, update } = tarefasHooks.useMutations();
   const { register, handleSubmit, reset, formState } = useForm<TarefaForm>({ resolver: zodResolver(tarefaSchema) });

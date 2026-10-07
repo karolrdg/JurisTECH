@@ -16,7 +16,7 @@ const NAV = [
   { to: "/configuracoes", label: "Configurações", icon: Settings },
 ] as const;
 
-function NavList({ onNavigate }: { onNavigate?: () => void }) {
+function NavList({ onNavigate }: { onNavigate?: () => void | undefined }) {
   return (
     <nav aria-label="Menu principal" className="flex-1 space-y-1 px-3">
       {NAV.map(({ to, label, icon: Icon }) => (
@@ -35,7 +35,7 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
+function SidebarBody({ onNavigate }: { onNavigate?: () => void | undefined }) {
   return (
     <div className="flex h-full flex-col bg-sidebar py-6">
       <div className="mb-8 px-6">

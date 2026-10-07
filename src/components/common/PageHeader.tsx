@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 export interface Crumb {
   label: string;
-  to?: string;
+  to?: string | undefined;
 }
 
 export function PageHeader({
@@ -14,9 +14,9 @@ export function PageHeader({
   breadcrumbs,
 }: {
   title: string;
-  description?: string;
-  actions?: ReactNode;
-  breadcrumbs?: Crumb[];
+  description?: string | undefined;
+  actions?: ReactNode | undefined;
+  breadcrumbs?: Crumb[] | undefined;
 }) {
   return (
     <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">

@@ -12,7 +12,7 @@ export function PrazoList({
   onDelete,
 }: {
   prazos: PrazoDto[];
-  subtitle?: (p: PrazoDto) => string;
+  subtitle?: (p: PrazoDto) => string | undefined;
   onEdit: (p: PrazoDto) => void;
   onDelete: (p: PrazoDto) => void;
 }) {

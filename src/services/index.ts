@@ -17,7 +17,7 @@ import { createApiCrud, createMockCrud } from "./crud";
 import { delay, getDb } from "./mock/mockDb";
 
 /** Set VITE_USE_MOCK=false to switch every service to the real REST API. */
-export const USE_MOCK = import.meta.env.VITE_USE_MOCK !== "false";
+export const USE_MOCK = import.meta.env["VITE_USE_MOCK"] !== "false";
 
 const newId = () => crypto.randomUUID();
 const today = () => toISODate(new Date());

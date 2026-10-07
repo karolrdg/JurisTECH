@@ -30,7 +30,7 @@ export const Route = createFileRoute("/_app/processos/$id")({
   component: ProcessoDetalhe,
 });
 
-function Info({ label, value }: { label: string; value?: string | null }) {
+function Info({ label, value }: { label: string; value?: string | null | undefined }) {
   return (
     <div>
       <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</dt>

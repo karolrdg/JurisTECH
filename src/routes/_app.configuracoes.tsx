@@ -40,7 +40,7 @@ function ConfigPage() {
         </Card>
         <Card icon={Server} title="Conexão com a API">
           <p><span className="font-semibold text-foreground">Modo:</span> {USE_MOCK ? "Demonstração (dados fictícios)" : "API REST"}</p>
-          <p><span className="font-semibold text-foreground">Endereço:</span> <code className="font-mono text-xs">{import.meta.env.VITE_API_BASE_URL ?? "http://localhost:5000/api"}</code></p>
+          <p><span className="font-semibold text-foreground">Endereço:</span> <code className="font-mono text-xs">{import.meta.env["VITE_API_BASE_URL"] ?? "http://localhost:5000/api"}</code></p>
         </Card>
         <Card icon={ShieldCheck} title="Segurança e privacidade">
           <p>A sessão expira automaticamente e é encerrada ao fechar a aba.</p>

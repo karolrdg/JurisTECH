@@ -1,7 +1,7 @@
 import { Scale } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function Logo({ className, inverted }: { className?: string; inverted?: boolean }) {
+export function Logo({ className, inverted }: { className?: string | undefined; inverted?: boolean | undefined }) {
   return (
     <span className={cn("flex items-center gap-2.5", className)}>
       <span className="brand-gradient grid size-9 place-items-center rounded-xl text-primary-foreground shadow-lift">

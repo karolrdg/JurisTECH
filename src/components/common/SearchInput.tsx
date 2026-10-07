@@ -9,8 +9,8 @@ export function SearchInput({
 }: {
   value: string;
   onChange: (v: string) => void;
-  placeholder?: string;
-  label?: string;
+  placeholder?: string | undefined;
+  label?: string | undefined;
 }) {
   return (
     <div className="relative w-full sm:max-w-xs">

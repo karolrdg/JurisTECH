@@ -16,9 +16,9 @@ export function ProcessoFormView({
   onSubmit,
   onCancel,
 }: {
-  initial?: ProcessoDto;
+  initial?: ProcessoDto | undefined;
   clientes: ClienteDto[];
-  submitting?: boolean;
+  submitting?: boolean | undefined;
   onSubmit: (v: ProcessoInput) => void;
   onCancel: () => void;
 }) {

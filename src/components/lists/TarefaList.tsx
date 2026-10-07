@@ -13,7 +13,7 @@ export function TarefaList({
   onComplete,
 }: {
   tarefas: TarefaDto[];
-  subtitle?: (t: TarefaDto) => string;
+  subtitle?: (t: TarefaDto) => string | undefined;
   onEdit: (t: TarefaDto) => void;
   onDelete: (t: TarefaDto) => void;
   onComplete: (t: TarefaDto) => void;

@@ -20,9 +20,9 @@ export function PrazoDialog({
 }: {
   open: boolean;
   onOpenChange: (o: boolean) => void;
-  initial?: PrazoDto | null;
+  initial?: PrazoDto | null | undefined;
   processos: ProcessoDto[];
-  defaultProcessoId?: string;
+  defaultProcessoId?: string | undefined;
 }) {
   const { create, update } = prazosHooks.useMutations();
   const { register, handleSubmit, reset, formState } = useForm<PrazoForm>({ resolver: zodResolver(prazoSchema) });

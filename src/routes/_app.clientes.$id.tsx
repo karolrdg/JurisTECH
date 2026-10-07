@@ -24,7 +24,7 @@ export const Route = createFileRoute("/_app/clientes/$id")({
   component: ClienteDetalhe,
 });
 
-function Info({ label, value }: { label: string; value?: string }) {
+function Info({ label, value }: { label: string; value?: string | undefined }) {
   return (
     <div>
       <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</dt>

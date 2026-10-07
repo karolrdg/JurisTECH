@@ -15,8 +15,8 @@ export function ClienteFormView({
   onSubmit,
   onCancel,
 }: {
-  initial?: ClienteDto;
-  submitting?: boolean;
+  initial?: ClienteDto | undefined;
+  submitting?: boolean | undefined;
   onSubmit: (v: ClienteInput) => void;
   onCancel: () => void;
 }) {

@@ -21,11 +21,11 @@ export function ConfirmDialog({
 }: {
   open: boolean;
   onOpenChange: (o: boolean) => void;
-  title?: string;
-  description?: string;
-  confirmLabel?: string;
+  title?: string | undefined;
+  description?: string | undefined;
+  confirmLabel?: string | undefined;
   onConfirm: () => void;
-  loading?: boolean;
+  loading?: boolean | undefined;
 }) {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>

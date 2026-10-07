@@ -3,7 +3,7 @@ import { AlertTriangle, FolderOpen, Loader2 } from "lucide-react";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 
-export function LoadingState({ label = "Carregando..." }: { label?: string }) {
+export function LoadingState({ label = "Carregando..." }: { label?: string | undefined }) {
   return (
     <div role="status" aria-live="polite" className="flex flex-col items-center justify-center gap-3 py-16 text-muted-foreground">
       <Loader2 className="size-6 animate-spin text-primary" aria-hidden />
@@ -12,7 +12,7 @@ export function LoadingState({ label = "Carregando..." }: { label?: string }) {
   );
 }
 
-export function ErrorState({ message, onRetry }: { message?: string; onRetry?: () => void }) {
+export function ErrorState({ message, onRetry }: { message?: string | undefined; onRetry?: () => void | undefined }) {
   return (
     <div role="alert" className="flex flex-col items-center justify-center gap-3 py-16 text-center">
       <span className="grid size-12 place-items-center rounded-full bg-destructive/10 text-destructive">
@@ -35,10 +35,10 @@ export function EmptyState({
   description,
   action,
 }: {
-  icon?: LucideIcon;
+  icon?: LucideIcon | undefined;
   title: string;
-  description?: string;
-  action?: ReactNode;
+  description?: string | undefined;
+  action?: ReactNode | undefined;
 }) {
   return (
     <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">

@@ -20,7 +20,7 @@ export const Route = createFileRoute("/_app/dashboard")({
   component: Dashboard,
 });
 
-function StatCard({ label, value, icon: Icon, hint, to }: { label: string; value?: number; icon: LucideIcon; hint: string; to: string }) {
+function StatCard({ label, value, icon: Icon, hint, to }: { label: string; value?: number | undefined; icon: LucideIcon; hint: string; to: string }) {
   return (
     <Link to={to} className="surface group block p-5 transition-shadow hover:shadow-lift">
       <div className="flex items-center justify-between">
