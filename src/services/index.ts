@@ -3,6 +3,7 @@ import type {
   ClienteInput,
   DashboardDto,
   LoginRequest,
+  RegisterRequest,
   LoginResponse,
   PrazoDto,
   PrazoInput,
@@ -78,11 +79,36 @@ export const dashboardService = {
 /** Demo credentials for the mock API (fictitious). */
 export const DEMO_LOGIN = { email: "demo@jurismaistech.com", password: "demo123" };
 
+const mockUsers: { nome: string; email: string; password: string }[] = [];
+
 export const authService = {
+  async register(req: RegisterRequest): Promise<LoginResponse> {
+    if (!USE_MOCK) return (await api.post<LoginResponse>("/auth/register", req)).data;
+    await delay(600);
+    const email = req.email.trim().toLowerCase();
+    if (email === DEMO_LOGIN.email || mockUsers.some((u) => u.email === email)) {
+      throw new Error("Já existe uma conta com este e-mail.");
+    }
+    mockUsers.push({ nome: req.nome.trim(), email, password: req.password });
+    return {
+      token: `mock.${newId()}`,
+      expiresAt: new Date(Date.now() + 8 * 36e5).toISOString(),
+      usuario: { id: newId(), nome: req.nome.trim(), email },
+    };
+  },
   async login(req: LoginRequest): Promise<LoginResponse> {
     if (!USE_MOCK) return (await api.post<LoginResponse>("/auth/login", req)).data;
     await delay(600);
-    if (req.email.toLowerCase() !== DEMO_LOGIN.email || req.password !== DEMO_LOGIN.password) {
+    const email = req.email.trim().toLowerCase();
+    const extra = mockUsers.find((u) => u.email === email && u.password === req.password);
+    if (extra) {
+      return {
+        token: `mock.${newId()}`,
+        expiresAt: new Date(Date.now() + 8 * 36e5).toISOString(),
+        usuario: { id: newId(), nome: extra.nome, email },
+      };
+    }
+    if (email !== DEMO_LOGIN.email || req.password !== DEMO_LOGIN.password) {
       throw new Error("E-mail ou senha incorretos.");
     }
     return {

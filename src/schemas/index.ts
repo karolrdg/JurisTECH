@@ -10,6 +10,16 @@ export const loginSchema = z.object({
 });
 export type LoginForm = z.infer<typeof loginSchema>;
 
+export const registerSchema = z
+  .object({
+    nome: req("Informe seu nome.").min(3, "Informe o nome completo.").max(120),
+    email: req("Informe o e-mail.").email("E-mail inválido.").max(160),
+    password: req("Informe a senha.").min(6, "A senha deve ter ao menos 6 caracteres.").max(100),
+    confirm: req("Confirme a senha."),
+  })
+  .refine((d) => d.password === d.confirm, { message: "As senhas não conferem.", path: ["confirm"] });
+export type RegisterForm = z.infer<typeof registerSchema>;
+
 export const clienteSchema = z.object({
   nomeCompleto: req("O nome é obrigatório.").min(3, "Informe o nome completo.").max(120),
   cpf: req("Informe o CPF.").refine(isValidCpf, "CPF inválido."),

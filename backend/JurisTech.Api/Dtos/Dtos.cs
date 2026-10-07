@@ -7,6 +7,10 @@ public record LoginRequest(
     [Required, EmailAddress] string Email,
     [Required, MinLength(6)] string Password);
 
+public record RegisterRequest(
+    [property: Required(ErrorMessage = "Informe seu nome."), StringLength(120, MinimumLength = 3)] string Nome,
+    [property: Required(ErrorMessage = "Informe o e-mail."), EmailAddress(ErrorMessage = "E-mail inválido."), StringLength(160)] string Email,
+    [property: Required(ErrorMessage = "Informe a senha."), StringLength(100, MinimumLength = 6, ErrorMessage = "A senha deve ter ao menos 6 caracteres.")] string Password);
 public record UsuarioDto(Guid Id, string Nome, string Email);
 public record LoginResponse(string Token, DateTime ExpiresAt, UsuarioDto Usuario);
 

@@ -30,6 +30,23 @@ public class AuthController(AppDbContext db, TokenService tokens) : ControllerBa
         return new LoginResponse(token, expiresAt, new UsuarioDto(user.Id, user.Nome, user.Email));
     }
 
+    [HttpPost("register")]
+    [AllowAnonymous]
+    public async Task<ActionResult<LoginResponse>> Register(RegisterRequest req)
+    {
+        var email = req.Email.Trim().ToLowerInvariant();
+        if (await db.Usuarios.AnyAsync(u => u.Email == email))
+            return Conflict(new ErroDto("Já existe uma conta com este e-mail."));
+
+        var user = new Usuario { Nome = req.Nome.Trim(), Email = email };
+        user.SenhaHash = new PasswordHasher<Usuario>().HashPassword(user, req.Password);
+        db.Usuarios.Add(user);
+        await db.SaveChangesAsync();
+
+        var (token, expiresAt) = tokens.Create(user);
+        return new LoginResponse(token, expiresAt, new UsuarioDto(user.Id, user.Nome, user.Email));
+    }
+
     [HttpPost("logout")]
     [Authorize]
     public IActionResult Logout() => NoContent();
