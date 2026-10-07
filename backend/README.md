@@ -53,10 +53,37 @@ Todas as rotas, exceto login, exigem `Authorization: Bearer <token>`.
 - Status "Atrasado" de prazo não é gravado — é calculado na tela.
 - Senhas com hash (PasswordHasher do ASP.NET Identity).
 
-## Migrations (opcional)
-O projeto usa `EnsureCreated()` para simplificar. Para versionar o banco:
+## Banco de dados e migrações
+
+O banco é versionado com migrações do Entity Framework (pasta `JurisTech.Api/Data/Migrations`).
+A primeira migração, `Inicial`, cria todas as tabelas.
+
+### Comportamento por ambiente
+| Configuração (`Database`) | Desenvolvimento | Produção |
+|---------------------------|-----------------|----------|
+| `AutoMigrate` — atualiza o banco ao iniciar | ligado | desligado |
+| `SeedDemoData` — dados fictícios se vazio  | ligado | desligado |
+
+### Desenvolvimento
+Basta `dotnet run`: o banco é criado/atualizado sozinho e recebe os dados de demonstração.
+
+### Produção (escolha uma opção no deploy)
+1. **Comando da própria API** (recomendado):
+   ```
+   ConnectionStrings__Default="..." dotnet JurisTech.Api.dll --migrate
+   ```
+   Aplica só as migrações pendentes e encerra. Depois inicie a API normalmente.
+2. **Script SQL para o DBA:** `backend/database/migrations.sql` é idempotente
+   (pode ser rodado várias vezes; só aplica o que falta).
+
+Use `appsettings.Production.example.json` como modelo. Senha do banco e `Jwt__Key`
+devem vir de variáveis de ambiente, nunca do repositório.
+
+### Alterar o banco (nova migração)
 ```
-dotnet tool install --global dotnet-ef
-dotnet ef migrations add Inicial
+dotnet tool install --global dotnet-ef --version 8.0.8
+cd backend/JurisTech.Api
+dotnet ef migrations add NomeDaMudanca -o Data/Migrations
+dotnet ef migrations script --idempotent -o ../database/migrations.sql
 ```
-e troque `EnsureCreated()` por `Migrate()` em `Program.cs`.
+Para desfazer a última migração ainda não aplicada: `dotnet ef migrations remove`.

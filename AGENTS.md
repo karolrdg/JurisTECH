@@ -14,4 +14,5 @@
 - No Supabase/Lovable Cloud: persistence belongs to the external ASP.NET Core + SQL Server backend.
 - Auth gate is client-side in `src/routes/_app.tsx` (session token is browser-only); real authorization must be enforced by the API.
 - "Atrasado" deadline status is derived at read time (`getPrazoStatus`), not stored, so it never goes stale.
-- Backend source lives in `backend/JurisTech.Api` (ASP.NET Core 8 + EF Core SQL Server + JWT); it is not run inside Lovable, and its JSON contract must match `src/types`.
+- Backend source lives in `backend/JurisTech.Api` (ASP.NET Core 8 + EF Core SQL Server + JWT); not run inside Lovable; JSON contract must match `src/types`.
+- Schema changes go through EF migrations (`Data/Migrations`) plus a regenerated idempotent `backend/database/migrations.sql`; never `EnsureCreated`, because it bypasses migration history.
