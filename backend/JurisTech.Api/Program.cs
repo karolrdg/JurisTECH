@@ -66,13 +66,11 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Cria o banco (se não existir) e insere dados fictícios de demonstração
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.EnsureCreated();
-    DbSeeder.Seed(db);
-}
+// Banco: aplica migrações / dados de demonstração conforme appsettings (seção "Database").
+// "--migrate" só atualiza o banco e encerra (use no deploy de produção).
+var migrateOnly = args.Contains("--migrate");
+await DatabaseSetup.ApplyAsync(app.Services, config, app.Logger, force: migrateOnly);
+if (migrateOnly) return;
 
 if (app.Environment.IsDevelopment())
 {
@@ -85,4 +83,4 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
