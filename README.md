@@ -2,6 +2,29 @@
 
 Gestão administrativa de processos jurídicos para pequenos escritórios de advocacia (MVP de demonstração). **Não fornece aconselhamento jurídico.** Todos os dados são fictícios.
 
+## Telas do sistema
+
+### Login
+![Tela de login](docs/screenshots/login.png)
+
+### Dashboard
+![Dashboard](docs/screenshots/dashboard.png)
+
+### Clientes
+![Clientes](docs/screenshots/clientes.png)
+
+### Processos
+![Processos](docs/screenshots/processos.png)
+
+### Prazos
+![Prazos](docs/screenshots/prazos.png)
+
+### Tarefas
+![Tarefas](docs/screenshots/tarefas.png)
+
+### Versão celular
+<img src="docs/screenshots/mobile-login.png" alt="Login no celular" width="300" />
+
 ## Funcionalidades
 
 Login (JWT), dashboard com indicadores, CRUD de clientes, processos, prazos e tarefas, pesquisa e filtros, destaque de prazos atrasados (ícone + texto + cor), atividades recentes, estados de carregamento/vazio/erro, confirmação de exclusão.
