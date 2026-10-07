@@ -7,6 +7,9 @@ Gestão administrativa de processos jurídicos para pequenos escritórios de adv
 ### Login
 ![Tela de login](docs/screenshots/login.png)
 
+### Criar conta (novo escritório)
+![Tela de cadastro](docs/screenshots/cadastro.png)
+
 ### Dashboard
 ![Dashboard](docs/screenshots/dashboard.png)
 
@@ -23,7 +26,7 @@ Gestão administrativa de processos jurídicos para pequenos escritórios de adv
 ![Tarefas](docs/screenshots/tarefas.png)
 
 ### Versão celular
-<img src="docs/screenshots/mobile-login.png" alt="Login no celular" width="300" />
+<img src="docs/screenshots/mobile-login.png" alt="Login no celular" width="280" /> <img src="docs/screenshots/mobile-cadastro.png" alt="Cadastro no celular" width="280" />
 
 ## Funcionalidades
 
@@ -69,15 +72,83 @@ Defina `VITE_USE_MOCK=false` e `VITE_API_BASE_URL`. Cada serviço usa `createApi
 
 Cliente 1:N Processo · Processo 1:N Prazo · Processo 1:N Tarefa. Campos conforme `src/types/index.ts`.
 
-## Execução
+## Como rodar
 
+### Pré-requisitos
+
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- SQL Server (Express, LocalDB ou Docker)
+- Node.js 20+ (ou Bun)
+- Ferramenta de migrações: `dotnet tool install --global dotnet-ef --version 8.0.8`
+
+### 1. Backend (API .NET + SQL Server)
+
+```bash
+cd backend/JurisTech.Api
 ```
-bun install
+
+Configure a conexão com o banco em `appsettings.Development.json` (ou via variável de ambiente):
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=localhost;Database=JurisTech;Trusted_Connection=True;TrustServerCertificate=True"
+}
+```
+
+SQL Server via Docker (opcional):
+
+```bash
+docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Senha@Forte123" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+# connection string: Server=localhost,1433;Database=JurisTech;User Id=sa;Password=Senha@Forte123;TrustServerCertificate=True
+```
+
+Rode a API:
+
+```bash
+dotnet restore
+dotnet run
+```
+
+- Em desenvolvimento, as migrações e os dados de demonstração são aplicados automaticamente ao iniciar.
+- API: `http://localhost:5000/api` · Swagger: `http://localhost:5000/swagger`
+
+Criar/atualizar o banco manualmente:
+
+```bash
+dotnet ef database update          # aplica as migrações
+dotnet run -- --migrate            # aplica e encerra (útil em deploy)
+```
+
+Produção: use o script idempotente `backend/database/migrations.sql` (pode rodar várias vezes) e copie `appsettings.Production.example.json`, definindo a connection string e uma chave `Jwt__Key` forte por variável de ambiente.
+
+Nova alteração no modelo:
+
+```bash
+dotnet ef migrations add NomeDaMudanca -o Data/Migrations
+dotnet ef migrations script --idempotent -o ../database/migrations.sql
+```
+
+### 2. Frontend
+
+```bash
+npm install
 cp .env.example .env
-bun run dev
+npm run dev        # http://localhost:8080
 ```
 
-Acesso de demonstração (modo mock): `demo@jurismaistech.com` / `demo123`.
+`.env`:
+
+```
+VITE_API_BASE_URL=http://localhost:5000/api
+VITE_USE_MOCK=false   # true = dados fictícios no navegador, sem backend
+```
+
+> Rode o frontend no mesmo computador da API. A pré-visualização online (https) não consegue acessar `http://localhost`.
+
+### Acesso
+
+- Demonstração: `demo@jurismaistech.com` / `demo123`
+- Ou clique em **Cadastre-se** para criar a conta do seu escritório. Cada escritório vê apenas os próprios clientes, processos, prazos e tarefas.
 
 ## Segurança
 
