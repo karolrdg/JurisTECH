@@ -64,7 +64,7 @@ function LoginPage() {
           className="brand-gradient absolute -bottom-40 -left-20 size-96 rounded-full opacity-20 blur-3xl"
           aria-hidden
         />
-        <Logo inverted className="relative" />
+        <Logo inverted className="relative w-72" />
         <div className="relative mt-auto max-w-md">
           <h2 className="text-4xl font-bold leading-tight text-sidebar-accent-foreground">
             Seu escritório organizado, do cliente ao prazo.

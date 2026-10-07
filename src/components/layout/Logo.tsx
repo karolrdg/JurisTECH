@@ -1,26 +1,15 @@
-import { Scale } from "lucide-react";
+import logoFull from "@/assets/juristech-logo.png.asset.json";
+import logoIcon from "@/assets/juristech-icon.png.asset.json";
 import { cn } from "@/lib/utils";
 
-export function Logo({
-  className,
-  inverted,
-}: {
-  className?: string | undefined;
-  inverted?: boolean | undefined;
-}) {
-  return (
-    <span className={cn("flex items-center gap-2.5", className)}>
-      <span className="brand-gradient grid size-9 place-items-center rounded-xl text-primary-foreground shadow-lift">
-        <Scale className="size-5" aria-hidden />
-      </span>
-      <span
-        className={cn(
-          "font-display text-lg font-extrabold tracking-tight",
-          inverted ? "text-sidebar-accent-foreground" : "text-foreground",
-        )}
-      >
-        JURIS<span className={inverted ? "text-sidebar-primary" : "text-brand-teal"}>+</span>TECH
-      </span>
-    </span>
-  );
+/** Official JURIS+TECH logo. `inverted` places it on a light tile for dark surfaces. */
+export function Logo({ className, inverted, compact }: { className?: string | undefined; inverted?: boolean | undefined; compact?: boolean | undefined }) {
+  if (compact) {
+    return <img src={logoIcon.url} alt="JURIS+TECH" className={cn("h-9 w-auto", className)} />;
+  }
+  const img = <img src={logoFull.url} alt="JURIS+TECH — Gestão jurídica inteligente" className="h-auto w-full" />;
+  if (inverted) {
+    return <span className={cn("block rounded-xl bg-card px-3 py-2.5 shadow-soft", className)}>{img}</span>;
+  }
+  return <span className={cn("block w-52", className)}>{img}</span>;
 }
