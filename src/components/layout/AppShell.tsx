@@ -103,7 +103,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           >
             <Menu className="size-5" />
           </Button>
-          <Logo className="lg:hidden" />
+          <Logo compact className="lg:hidden" />
           <div className="ml-auto flex items-center gap-3">
             <div className="hidden text-right sm:block">
               <p className="text-sm font-semibold leading-tight">{user?.nome}</p>
