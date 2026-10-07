@@ -2,11 +2,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
   AlertCircle,
+  ArrowRight,
   Briefcase,
   CalendarClock,
+  Eye,
+  EyeOff,
   Loader2,
+  Lock,
+  Mail,
   Scale,
   ShieldCheck,
+  Sparkles,
   Users,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -42,6 +48,7 @@ function LoginPage() {
   const { login, user, ready } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const { register, handleSubmit, setValue, formState } = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "" },
@@ -127,55 +134,115 @@ function LoginPage() {
         </div>
       </section>
 
-      <section className="flex items-center justify-center p-6">
-        <div className="w-full max-w-sm">
-          <Logo className="mb-10 lg:hidden" />
-          <h1 className="text-2xl font-bold">Bem-vindo de volta</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Entre com suas credenciais para continuar.
-          </p>
-
-          {error && (
-            <div
-              role="alert"
-              className="mt-6 flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
-            >
-              <AlertCircle className="size-4 shrink-0" aria-hidden />
-              {error}
+      <section className="relative flex flex-col items-center justify-center bg-background p-6 sm:p-10">
+        <div className="w-full max-w-md">
+          <Logo className="mx-auto mb-8 w-56 lg:hidden" />
+          <div className="surface rounded-2xl border bg-card p-8 shadow-sm sm:p-10">
+            <div className="mb-6 grid size-12 place-items-center rounded-xl bg-accent text-accent-foreground">
+              <Lock className="size-5" aria-hidden />
             </div>
-          )}
+            <h1 className="font-display text-2xl font-bold tracking-tight">Bem-vindo de volta</h1>
+            <p className="mt-1.5 text-sm text-muted-foreground">
+              Acesse sua conta para gerenciar o escritório.
+            </p>
 
-          <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-6 space-y-4">
-            <Field label="E-mail" error={formState.errors.email?.message} required>
-              <Input type="email" autoComplete="email" {...register("email")} />
-            </Field>
-            <Field label="Senha" error={formState.errors.password?.message} required>
-              <Input type="password" autoComplete="current-password" {...register("password")} />
-            </Field>
-            <Button type="submit" className="w-full" size="lg" disabled={formState.isSubmitting}>
-              {formState.isSubmitting && <Loader2 className="size-4 animate-spin" aria-hidden />}
-              Entrar
-            </Button>
-          </form>
-
-          {USE_MOCK && (
-            <div className="mt-6 rounded-xl border border-dashed border-brand-teal/40 bg-accent/50 p-4 text-sm">
-              <p className="font-semibold text-accent-foreground">Modo demonstração</p>
-              <p className="mt-1 text-muted-foreground">Use o acesso fictício de teste.</p>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="mt-3"
-                onClick={() => {
-                  setValue("email", DEMO_LOGIN.email);
-                  setValue("password", DEMO_LOGIN.password);
-                }}
+            {error && (
+              <div
+                role="alert"
+                className="mt-6 flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
               >
-                Preencher acesso de demonstração
+                <AlertCircle className="size-4 shrink-0" aria-hidden />
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-7 space-y-5">
+              <Field label="E-mail" error={formState.errors.email?.message} required>
+                <div className="relative">
+                  <Mail
+                    className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+                    aria-hidden
+                  />
+                  <Input
+                    type="email"
+                    autoComplete="email"
+                    placeholder="seu@escritorio.com"
+                    className="h-11 pl-10"
+                    {...register("email")}
+                  />
+                </div>
+              </Field>
+              <Field label="Senha" error={formState.errors.password?.message} required>
+                <div className="relative">
+                  <Lock
+                    className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+                    aria-hidden
+                  />
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    placeholder="••••••••"
+                    className="h-11 pl-10 pr-11"
+                    {...register("password")}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="absolute right-1.5 top-1/2 grid size-8 -translate-y-1/2 place-items-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                  >
+                    {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                  </button>
+                </div>
+              </Field>
+              <Button
+                type="submit"
+                className="h-11 w-full text-base"
+                disabled={formState.isSubmitting}
+              >
+                {formState.isSubmitting ? (
+                  <Loader2 className="size-4 animate-spin" aria-hidden />
+                ) : null}
+                {formState.isSubmitting ? "Entrando..." : "Entrar"}
+                {!formState.isSubmitting && <ArrowRight className="size-4" aria-hidden />}
               </Button>
-            </div>
-          )}
+            </form>
+
+            {USE_MOCK && (
+              <>
+                <div className="my-6 flex items-center gap-3 text-xs uppercase tracking-wider text-muted-foreground">
+                  <span className="h-px flex-1 bg-border" />
+                  ou
+                  <span className="h-px flex-1 bg-border" />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setValue("email", DEMO_LOGIN.email, { shouldValidate: true });
+                    setValue("password", DEMO_LOGIN.password, { shouldValidate: true });
+                  }}
+                  className="flex w-full items-center gap-3 rounded-xl border border-dashed border-brand-teal/50 bg-accent/40 p-4 text-left transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-card text-accent-foreground">
+                    <Sparkles className="size-4" aria-hidden />
+                  </span>
+                  <span className="flex-1">
+                    <span className="block text-sm font-semibold text-accent-foreground">
+                      Usar acesso de demonstração
+                    </span>
+                    <span className="block text-xs text-muted-foreground">
+                      Preenche os dados fictícios automaticamente
+                    </span>
+                  </span>
+                  <ArrowRight className="size-4 text-muted-foreground" aria-hidden />
+                </button>
+              </>
+            )}
+          </div>
+          <p className="mt-6 flex items-center justify-center gap-1.5 text-center text-xs text-muted-foreground">
+            <ShieldCheck className="size-3.5" aria-hidden />
+            Conexão segura · Sistema administrativo, sem aconselhamento jurídico
+          </p>
         </div>
       </section>
     </div>
