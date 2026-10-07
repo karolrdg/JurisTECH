@@ -1,6 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { AlertCircle, CalendarClock, Loader2, ShieldCheck, Users } from "lucide-react";
+import {
+  AlertCircle,
+  Briefcase,
+  CalendarClock,
+  Loader2,
+  Scale,
+  ShieldCheck,
+  Users,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Field } from "@/components/common/Field";
@@ -55,34 +63,67 @@ function LoginPage() {
 
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
-      <section className="relative hidden overflow-hidden bg-sidebar p-12 text-sidebar-foreground lg:flex lg:flex-col">
+      <section className="relative hidden overflow-hidden bg-sidebar p-12 text-sidebar-foreground lg:flex lg:flex-col xl:p-16">
         <div
-          className="brand-gradient absolute -right-32 -top-32 size-96 rounded-full opacity-30 blur-3xl"
+          className="pointer-events-none absolute inset-0 opacity-[0.07]"
+          style={{
+            backgroundImage:
+              "linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
           aria-hidden
         />
         <div
-          className="brand-gradient absolute -bottom-40 -left-20 size-96 rounded-full opacity-20 blur-3xl"
+          className="brand-gradient absolute -right-40 -top-40 size-[28rem] rounded-full opacity-25 blur-3xl"
           aria-hidden
         />
-        <Logo inverted className="relative w-72" />
-        <div className="relative mt-auto max-w-md">
-          <h2 className="text-4xl font-bold leading-tight text-sidebar-accent-foreground">
-            Seu escritório organizado, do cliente ao prazo.
+        <div
+          className="brand-gradient absolute -bottom-48 -left-32 size-[28rem] rounded-full opacity-15 blur-3xl"
+          aria-hidden
+        />
+
+        <Logo inverted className="relative w-64" />
+
+        <div className="relative my-auto max-w-lg py-10">
+          <span className="inline-flex items-center gap-2 rounded-full border border-sidebar-border bg-sidebar-accent/60 px-3 py-1 text-xs font-medium uppercase tracking-wider text-sidebar-primary">
+            <Scale className="size-3.5" aria-hidden />
+            Gestão jurídica inteligente
+          </span>
+          <h2 className="mt-6 font-display text-4xl font-bold leading-[1.15] text-sidebar-accent-foreground xl:text-5xl">
+            Controle total do seu escritório,{" "}
+            <span className="text-sidebar-primary">do cliente ao prazo.</span>
           </h2>
-          <ul className="mt-8 space-y-4 text-sm">
+          <p className="mt-5 text-base leading-relaxed text-sidebar-foreground/80">
+            Centralize clientes, processos, prazos e tarefas em uma plataforma segura, pensada
+            para a rotina de pequenos escritórios de advocacia.
+          </p>
+
+          <div className="mt-10 grid grid-cols-3 gap-3">
             {[
-              { icon: Users, t: "Clientes e processos em um só lugar" },
-              { icon: CalendarClock, t: "Prazos com alertas de atraso" },
-              { icon: ShieldCheck, t: "Acesso protegido por autenticação" },
-            ].map(({ icon: I, t }) => (
-              <li key={t} className="flex items-center gap-3">
-                <span className="grid size-8 place-items-center rounded-lg bg-sidebar-accent text-sidebar-primary">
+              { icon: Users, t: "Clientes", d: "Cadastro completo" },
+              { icon: Briefcase, t: "Processos", d: "Status e andamentos" },
+              { icon: CalendarClock, t: "Prazos", d: "Alertas de atraso" },
+            ].map(({ icon: I, t, d }) => (
+              <div
+                key={t}
+                className="rounded-xl border border-sidebar-border bg-sidebar-accent/40 p-4 backdrop-blur-sm"
+              >
+                <span className="grid size-9 place-items-center rounded-lg bg-sidebar-primary/15 text-sidebar-primary">
                   <I className="size-4" aria-hidden />
                 </span>
-                {t}
-              </li>
+                <p className="mt-3 text-sm font-semibold text-sidebar-accent-foreground">{t}</p>
+                <p className="text-xs text-sidebar-foreground/70">{d}</p>
+              </div>
             ))}
-          </ul>
+          </div>
+        </div>
+
+        <div className="relative flex items-center justify-between border-t border-sidebar-border pt-6 text-xs text-sidebar-foreground/70">
+          <span className="flex items-center gap-2">
+            <ShieldCheck className="size-4 text-sidebar-primary" aria-hidden />
+            Acesso protegido e dados confidenciais
+          </span>
+          <span>© {new Date().getFullYear()} JURIS+TECH</span>
         </div>
       </section>
 
