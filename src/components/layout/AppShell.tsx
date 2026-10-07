@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { useAuth } from "@/hooks/useAuth";
 import { initials } from "@/utils/format";
-import { Logo } from "./Logo";
+
 
 const NAV = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -52,7 +52,11 @@ function SidebarBody({ onNavigate }: { onNavigate?: (() => void) | undefined }) 
   return (
     <div className="flex h-full flex-col bg-sidebar py-6">
       <div className="mb-8 px-6">
-        <Logo inverted />
+        <img
+          src="/logo.png"
+          alt="JurisTECH"
+          className="h-10 w-auto"
+        />
       </div>
       <NavList onNavigate={onNavigate} />
       <div className="mx-4 mt-6 rounded-xl border border-sidebar-border bg-sidebar-accent/60 p-4 text-xs text-sidebar-foreground">
@@ -103,7 +107,11 @@ export function AppShell({ children }: { children: ReactNode }) {
           >
             <Menu className="size-5" />
           </Button>
-          <Logo compact className="lg:hidden" />
+          <img
+            src="/logo.png"
+            alt="JurisTECH"
+            className="h-8 w-auto lg:hidden"
+          />
           <div className="ml-auto flex items-center gap-3">
             <div className="hidden text-right sm:block">
               <p className="text-sm font-semibold leading-tight">{user?.nome}</p>

@@ -18,7 +18,6 @@ import {
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Field } from "@/components/common/Field";
-import { Logo } from "@/components/layout/Logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/useAuth";
@@ -89,7 +88,11 @@ function LoginPage() {
           aria-hidden
         />
 
-        <Logo inverted className="relative w-64" />
+        <img
+          src="/logo.png"
+          alt="JURIS+TECH"
+          className="relative w-72 rounded-lg bg-sky-50/10 p-5 shadow-lg"
+        />
 
         <div className="relative my-auto max-w-lg py-10">
           <span className="inline-flex items-center gap-2 rounded-full border border-sidebar-border bg-sidebar-accent/60 px-3 py-1 text-xs font-medium uppercase tracking-wider text-sidebar-primary">
@@ -136,7 +139,11 @@ function LoginPage() {
 
       <section className="relative flex flex-col items-center justify-center bg-background p-6 sm:p-10">
         <div className="w-full max-w-md">
-          <Logo className="mx-auto mb-8 w-56 lg:hidden" />
+          <img
+            src="/logo.png"
+            alt="JURIS+TECH"
+            className="mx-auto mb-8 w-56 lg:hidden"
+          />
           <div className="surface rounded-2xl border bg-card p-8 shadow-sm sm:p-10">
             <div className="mb-6 grid size-12 place-items-center rounded-xl bg-accent text-accent-foreground">
               <Lock className="size-5" aria-hidden />
