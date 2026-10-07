@@ -47,7 +47,7 @@ export function createMockCrud<T extends { id: string }, I>(opts: {
       await delay();
       const item = opts.build(input);
       opts.store().unshift(item);
-      logActivity(`${opts.noun} “${opts.label(item)}” cadastrado(a).`);
+      logActivity(`${opts.noun} “${opts.label(item)}” cadastrado.`);
       return item;
     },
     async update(id, input) {
@@ -57,7 +57,7 @@ export function createMockCrud<T extends { id: string }, I>(opts: {
       if (idx < 0) throw new Error("Registro não encontrado.");
       const item = opts.build(input, s[idx]);
       s[idx] = item;
-      logActivity(`${opts.noun} “${opts.label(item)}” atualizado(a).`);
+      logActivity(`${opts.noun} “${opts.label(item)}” atualizado.`);
       return item;
     },
     async remove(id) {
@@ -65,7 +65,7 @@ export function createMockCrud<T extends { id: string }, I>(opts: {
       const s = opts.store();
       const item = find(id);
       s.splice(s.indexOf(item), 1);
-      logActivity(`${opts.noun} “${opts.label(item)}” excluído(a).`);
+      logActivity(`${opts.noun} “${opts.label(item)}” excluído.`);
     },
   };
 }
