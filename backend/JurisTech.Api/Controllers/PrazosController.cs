@@ -19,7 +19,7 @@ public class PrazosController(AppDbContext db, ActivityService log) : Controller
 
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<Prazo>> Get(Guid id) =>
-        await db.Prazos.FindAsync(id) is { } p ? p : NotFound();
+        await db.Prazos.FirstOrDefaultAsync(x => x.Id == id) is { } p ? p : NotFound();
 
     [HttpPost]
     public async Task<ActionResult<Prazo>> Create(PrazoInput i)
@@ -37,7 +37,7 @@ public class PrazosController(AppDbContext db, ActivityService log) : Controller
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<Prazo>> Update(Guid id, PrazoInput i)
     {
-        var p = await db.Prazos.FindAsync(id);
+        var p = await db.Prazos.FirstOrDefaultAsync(x => x.Id == id);
         if (p is null) return NotFound();
         if (!await db.Processos.AnyAsync(x => x.Id == i.ProcessoId))
             return BadRequest(new ErroDto("Processo não encontrado."));
@@ -51,7 +51,7 @@ public class PrazosController(AppDbContext db, ActivityService log) : Controller
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var p = await db.Prazos.FindAsync(id);
+        var p = await db.Prazos.FirstOrDefaultAsync(x => x.Id == id);
         if (p is null) return NotFound();
         db.Prazos.Remove(p);
         log.Log($"Prazo “{p.Titulo}” excluído.");
