@@ -15,13 +15,13 @@ function makeHooks<T, I>(key: string, service: CrudService<T, I>, noun: string, 
       };
       const fail = (e: Error) => toast.error(e.message);
       return {
-        create: useMutation({ mutationFn: (i: I) => service.create(i), onSuccess: () => done(`${noun} cadastrado${g} com sucesso.`), onError: fail }),
+        create: useMutation({ mutationFn: (i: I) => service.create(i), onSuccess: () => done(`${noun} cadastrad${g} com sucesso.`), onError: fail }),
         update: useMutation({
           mutationFn: ({ id, input }: { id: string; input: I }) => service.update(id, input),
-          onSuccess: () => done(`${noun} atualizado${g} com sucesso.`),
+          onSuccess: () => done(`${noun} atualizad${g} com sucesso.`),
           onError: fail,
         }),
-        remove: useMutation({ mutationFn: (id: string) => service.remove(id), onSuccess: () => done(`${noun} excluído${g} com sucesso.`), onError: fail }),
+        remove: useMutation({ mutationFn: (id: string) => service.remove(id), onSuccess: () => done(`${noun} excluíd${g} com sucesso.`), onError: fail }),
       };
     },
   };
