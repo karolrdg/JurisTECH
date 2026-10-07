@@ -12,10 +12,10 @@ export function Field({
   children,
 }: {
   label: string;
-  error?: string;
-  hint?: string;
-  required?: boolean;
-  className?: string;
+  error?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  className?: string | undefined;
   children: ReactElement<Record<string, unknown>>;
 }) {
   const id = useId();
