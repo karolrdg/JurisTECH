@@ -10,33 +10,178 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppRouteImport } from './routes/_app'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AppConfiguracoesRouteImport } from './routes/_app.configuracoes'
+import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppPrazosRouteImport } from './routes/_app.prazos'
+import { Route as AppTarefasRouteImport } from './routes/_app.tarefas'
+import { Route as AppClientesIndexRouteImport } from './routes/_app.clientes.index'
+import { Route as AppClientesIdRouteImport } from './routes/_app.clientes.$id'
+import { Route as AppClientesNovoRouteImport } from './routes/_app.clientes.novo'
+import { Route as AppProcessosIndexRouteImport } from './routes/_app.processos.index'
+import { Route as AppProcessosIdRouteImport } from './routes/_app.processos.$id'
+import { Route as AppProcessosNovoRouteImport } from './routes/_app.processos.novo'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppConfiguracoesRoute = AppConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPrazosRoute = AppPrazosRouteImport.update({
+  id: '/prazos',
+  path: '/prazos',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTarefasRoute = AppTarefasRouteImport.update({
+  id: '/tarefas',
+  path: '/tarefas',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppClientesIndexRoute = AppClientesIndexRouteImport.update({
+  id: '/clientes/',
+  path: '/clientes/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppClientesIdRoute = AppClientesIdRouteImport.update({
+  id: '/clientes/$id',
+  path: '/clientes/$id',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppClientesNovoRoute = AppClientesNovoRouteImport.update({
+  id: '/clientes/novo',
+  path: '/clientes/novo',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProcessosIndexRoute = AppProcessosIndexRouteImport.update({
+  id: '/processos/',
+  path: '/processos/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProcessosIdRoute = AppProcessosIdRouteImport.update({
+  id: '/processos/$id',
+  path: '/processos/$id',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProcessosNovoRoute = AppProcessosNovoRouteImport.update({
+  id: '/processos/novo',
+  path: '/processos/novo',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/configuracoes': typeof AppConfiguracoesRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/prazos': typeof AppPrazosRoute
+  '/tarefas': typeof AppTarefasRoute
+  '/clientes/$id': typeof AppClientesIdRoute
+  '/clientes/novo': typeof AppClientesNovoRoute
+  '/processos/$id': typeof AppProcessosIdRoute
+  '/processos/novo': typeof AppProcessosNovoRoute
+  '/clientes/': typeof AppClientesIndexRoute
+  '/processos/': typeof AppProcessosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/configuracoes': typeof AppConfiguracoesRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/prazos': typeof AppPrazosRoute
+  '/tarefas': typeof AppTarefasRoute
+  '/clientes/$id': typeof AppClientesIdRoute
+  '/clientes/novo': typeof AppClientesNovoRoute
+  '/processos/$id': typeof AppProcessosIdRoute
+  '/processos/novo': typeof AppProcessosNovoRoute
+  '/clientes': typeof AppClientesIndexRoute
+  '/processos': typeof AppProcessosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/_app/configuracoes': typeof AppConfiguracoesRoute
+  '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/prazos': typeof AppPrazosRoute
+  '/_app/tarefas': typeof AppTarefasRoute
+  '/_app/clientes/$id': typeof AppClientesIdRoute
+  '/_app/clientes/novo': typeof AppClientesNovoRoute
+  '/_app/processos/$id': typeof AppProcessosIdRoute
+  '/_app/processos/novo': typeof AppProcessosNovoRoute
+  '/_app/clientes/': typeof AppClientesIndexRoute
+  '/_app/processos/': typeof AppProcessosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/configuracoes'
+    | '/dashboard'
+    | '/prazos'
+    | '/tarefas'
+    | '/clientes/$id'
+    | '/clientes/novo'
+    | '/processos/$id'
+    | '/processos/novo'
+    | '/clientes/'
+    | '/processos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/login'
+    | '/configuracoes'
+    | '/dashboard'
+    | '/prazos'
+    | '/tarefas'
+    | '/clientes/$id'
+    | '/clientes/novo'
+    | '/processos/$id'
+    | '/processos/novo'
+    | '/clientes'
+    | '/processos'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/login'
+    | '/_app/configuracoes'
+    | '/_app/dashboard'
+    | '/_app/prazos'
+    | '/_app/tarefas'
+    | '/_app/clientes/$id'
+    | '/_app/clientes/novo'
+    | '/_app/processos/$id'
+    | '/_app/processos/novo'
+    | '/_app/clientes/'
+    | '/_app/processos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +193,125 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app/configuracoes': {
+      id: '/_app/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof AppConfiguracoesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/prazos': {
+      id: '/_app/prazos'
+      path: '/prazos'
+      fullPath: '/prazos'
+      preLoaderRoute: typeof AppPrazosRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/tarefas': {
+      id: '/_app/tarefas'
+      path: '/tarefas'
+      fullPath: '/tarefas'
+      preLoaderRoute: typeof AppTarefasRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/clientes/': {
+      id: '/_app/clientes/'
+      path: '/clientes'
+      fullPath: '/clientes/'
+      preLoaderRoute: typeof AppClientesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/clientes/$id': {
+      id: '/_app/clientes/$id'
+      path: '/clientes/$id'
+      fullPath: '/clientes/$id'
+      preLoaderRoute: typeof AppClientesIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/clientes/novo': {
+      id: '/_app/clientes/novo'
+      path: '/clientes/novo'
+      fullPath: '/clientes/novo'
+      preLoaderRoute: typeof AppClientesNovoRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/processos/': {
+      id: '/_app/processos/'
+      path: '/processos'
+      fullPath: '/processos/'
+      preLoaderRoute: typeof AppProcessosIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/processos/$id': {
+      id: '/_app/processos/$id'
+      path: '/processos/$id'
+      fullPath: '/processos/$id'
+      preLoaderRoute: typeof AppProcessosIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/processos/novo': {
+      id: '/_app/processos/novo'
+      path: '/processos/novo'
+      fullPath: '/processos/novo'
+      preLoaderRoute: typeof AppProcessosNovoRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppConfiguracoesRoute: typeof AppConfiguracoesRoute
+  AppDashboardRoute: typeof AppDashboardRoute
+  AppPrazosRoute: typeof AppPrazosRoute
+  AppTarefasRoute: typeof AppTarefasRoute
+  AppClientesIdRoute: typeof AppClientesIdRoute
+  AppClientesNovoRoute: typeof AppClientesNovoRoute
+  AppProcessosIdRoute: typeof AppProcessosIdRoute
+  AppProcessosNovoRoute: typeof AppProcessosNovoRoute
+  AppClientesIndexRoute: typeof AppClientesIndexRoute
+  AppProcessosIndexRoute: typeof AppProcessosIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppConfiguracoesRoute: AppConfiguracoesRoute,
+  AppDashboardRoute: AppDashboardRoute,
+  AppPrazosRoute: AppPrazosRoute,
+  AppTarefasRoute: AppTarefasRoute,
+  AppClientesIdRoute: AppClientesIdRoute,
+  AppClientesNovoRoute: AppClientesNovoRoute,
+  AppProcessosIdRoute: AppProcessosIdRoute,
+  AppProcessosNovoRoute: AppProcessosNovoRoute,
+  AppClientesIndexRoute: AppClientesIndexRoute,
+  AppProcessosIndexRoute: AppProcessosIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
