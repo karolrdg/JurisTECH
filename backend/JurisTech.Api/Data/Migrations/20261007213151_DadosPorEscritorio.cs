@@ -58,6 +58,22 @@ namespace JurisTech.Api.Data.Migrations
                 nullable: false,
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
+            // Registros que já existiam passam a pertencer à conta de demonstração
+            // (ou ao primeiro usuário cadastrado, se ela não existir).
+            migrationBuilder.Sql(@"
+DECLARE @dono uniqueidentifier = (SELECT TOP 1 Id FROM Usuarios WHERE Email = 'demo@jurismaistech.com');
+IF @dono IS NULL SET @dono = (SELECT TOP 1 Id FROM Usuarios);
+IF @dono IS NOT NULL
+BEGIN
+    UPDATE Clientes   SET UsuarioId = @dono WHERE UsuarioId = '00000000-0000-0000-0000-000000000000';
+    UPDATE Processos  SET UsuarioId = @dono WHERE UsuarioId = '00000000-0000-0000-0000-000000000000';
+    UPDATE Prazos     SET UsuarioId = @dono WHERE UsuarioId = '00000000-0000-0000-0000-000000000000';
+    UPDATE Tarefas    SET UsuarioId = @dono WHERE UsuarioId = '00000000-0000-0000-0000-000000000000';
+    UPDATE Atividades SET UsuarioId = @dono WHERE UsuarioId = '00000000-0000-0000-0000-000000000000';
+END
+DELETE FROM Atividades WHERE UsuarioId = '00000000-0000-0000-0000-000000000000';
+");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Tarefas_UsuarioId",
                 table: "Tarefas",

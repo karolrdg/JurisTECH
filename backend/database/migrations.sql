@@ -197,3 +197,245 @@ GO
 COMMIT;
 GO
 
+BEGIN TRANSACTION;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007193303_InitialCreate'
+)
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20261007193303_InitialCreate', N'8.0.8');
+END;
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    DROP INDEX [IX_Processos_NumeroProcesso] ON [Processos];
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    DROP INDEX [IX_Clientes_Cpf] ON [Clientes];
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    DROP INDEX [IX_Atividades_Data] ON [Atividades];
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    ALTER TABLE [Tarefas] ADD [UsuarioId] uniqueidentifier NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000';
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    ALTER TABLE [Processos] ADD [UsuarioId] uniqueidentifier NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000';
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    ALTER TABLE [Prazos] ADD [UsuarioId] uniqueidentifier NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000';
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    ALTER TABLE [Clientes] ADD [UsuarioId] uniqueidentifier NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000';
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    ALTER TABLE [Atividades] ADD [UsuarioId] uniqueidentifier NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000';
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+
+    DECLARE @dono uniqueidentifier = (SELECT TOP 1 Id FROM Usuarios WHERE Email = 'demo@jurismaistech.com');
+    IF @dono IS NULL SET @dono = (SELECT TOP 1 Id FROM Usuarios);
+    IF @dono IS NOT NULL
+    BEGIN
+        UPDATE Clientes   SET UsuarioId = @dono WHERE UsuarioId = '00000000-0000-0000-0000-000000000000';
+        UPDATE Processos  SET UsuarioId = @dono WHERE UsuarioId = '00000000-0000-0000-0000-000000000000';
+        UPDATE Prazos     SET UsuarioId = @dono WHERE UsuarioId = '00000000-0000-0000-0000-000000000000';
+        UPDATE Tarefas    SET UsuarioId = @dono WHERE UsuarioId = '00000000-0000-0000-0000-000000000000';
+        UPDATE Atividades SET UsuarioId = @dono WHERE UsuarioId = '00000000-0000-0000-0000-000000000000';
+    END
+    DELETE FROM Atividades WHERE UsuarioId = '00000000-0000-0000-0000-000000000000';
+
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    CREATE INDEX [IX_Tarefas_UsuarioId] ON [Tarefas] ([UsuarioId]);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    CREATE INDEX [IX_Processos_UsuarioId] ON [Processos] ([UsuarioId]);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    CREATE UNIQUE INDEX [IX_Processos_UsuarioId_NumeroProcesso] ON [Processos] ([UsuarioId], [NumeroProcesso]);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    CREATE INDEX [IX_Prazos_UsuarioId] ON [Prazos] ([UsuarioId]);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    CREATE INDEX [IX_Clientes_UsuarioId] ON [Clientes] ([UsuarioId]);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    CREATE UNIQUE INDEX [IX_Clientes_UsuarioId_Cpf] ON [Clientes] ([UsuarioId], [Cpf]);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    CREATE INDEX [IX_Atividades_UsuarioId] ON [Atividades] ([UsuarioId]);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    CREATE INDEX [IX_Atividades_UsuarioId_Data] ON [Atividades] ([UsuarioId], [Data]);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    ALTER TABLE [Atividades] ADD CONSTRAINT [FK_Atividades_Usuarios_UsuarioId] FOREIGN KEY ([UsuarioId]) REFERENCES [Usuarios] ([Id]);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    ALTER TABLE [Clientes] ADD CONSTRAINT [FK_Clientes_Usuarios_UsuarioId] FOREIGN KEY ([UsuarioId]) REFERENCES [Usuarios] ([Id]);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    ALTER TABLE [Prazos] ADD CONSTRAINT [FK_Prazos_Usuarios_UsuarioId] FOREIGN KEY ([UsuarioId]) REFERENCES [Usuarios] ([Id]);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    ALTER TABLE [Processos] ADD CONSTRAINT [FK_Processos_Usuarios_UsuarioId] FOREIGN KEY ([UsuarioId]) REFERENCES [Usuarios] ([Id]);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    ALTER TABLE [Tarefas] ADD CONSTRAINT [FK_Tarefas_Usuarios_UsuarioId] FOREIGN KEY ([UsuarioId]) REFERENCES [Usuarios] ([Id]);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261007213151_DadosPorEscritorio'
+)
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20261007213151_DadosPorEscritorio', N'8.0.8');
+END;
+GO
+
+COMMIT;
+GO
+
