@@ -10,6 +10,9 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUser, HttpCurrentUser>();
+
 // Banco de dados (SQL Server via EF Core)
 builder.Services.AddDbContext<AppDbContext>(o =>
     o.UseSqlServer(config.GetConnectionString("Default")));

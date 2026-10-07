@@ -19,7 +19,7 @@ public class ProcessosController(AppDbContext db, ActivityService log) : Control
 
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<Processo>> Get(Guid id) =>
-        await db.Processos.FindAsync(id) is { } p ? p : NotFound();
+        await db.Processos.FirstOrDefaultAsync(x => x.Id == id) is { } p ? p : NotFound();
 
     [HttpPost]
     public async Task<ActionResult<Processo>> Create(ProcessoInput i)
@@ -36,7 +36,7 @@ public class ProcessosController(AppDbContext db, ActivityService log) : Control
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<Processo>> Update(Guid id, ProcessoInput i)
     {
-        var p = await db.Processos.FindAsync(id);
+        var p = await db.Processos.FirstOrDefaultAsync(x => x.Id == id);
         if (p is null) return NotFound();
         if (await Validate(i, id) is { } erro) return erro;
         Apply(p, i);
@@ -48,7 +48,7 @@ public class ProcessosController(AppDbContext db, ActivityService log) : Control
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var p = await db.Processos.FindAsync(id);
+        var p = await db.Processos.FirstOrDefaultAsync(x => x.Id == id);
         if (p is null) return NotFound();
         db.Processos.Remove(p); // prazos e tarefas do processo são removidos junto
         log.Log($"Processo “{p.Titulo}” excluído.");

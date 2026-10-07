@@ -20,7 +20,7 @@ public class ClientesController(AppDbContext db, ActivityService log) : Controll
 
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<Cliente>> Get(Guid id) =>
-        await db.Clientes.FindAsync(id) is { } c ? c : NotFound();
+        await db.Clientes.FirstOrDefaultAsync(x => x.Id == id) is { } c ? c : NotFound();
 
     [HttpPost]
     public async Task<ActionResult<Cliente>> Create(ClienteInput i)
@@ -40,7 +40,7 @@ public class ClientesController(AppDbContext db, ActivityService log) : Controll
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<Cliente>> Update(Guid id, ClienteInput i)
     {
-        var c = await db.Clientes.FindAsync(id);
+        var c = await db.Clientes.FirstOrDefaultAsync(x => x.Id == id);
         if (c is null) return NotFound();
         var cpf = CpfAttribute.Digits(i.Cpf);
         if (await db.Clientes.AnyAsync(x => x.Cpf == cpf && x.Id != id))
@@ -55,7 +55,7 @@ public class ClientesController(AppDbContext db, ActivityService log) : Controll
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var c = await db.Clientes.FindAsync(id);
+        var c = await db.Clientes.FirstOrDefaultAsync(x => x.Id == id);
         if (c is null) return NotFound();
         if (await db.Processos.AnyAsync(p => p.ClienteId == id))
             return Conflict(new ErroDto("Este cliente possui processos vinculados e não pode ser excluído."));

@@ -19,7 +19,7 @@ public class TarefasController(AppDbContext db, ActivityService log) : Controlle
 
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<Tarefa>> Get(Guid id) =>
-        await db.Tarefas.FindAsync(id) is { } t ? t : NotFound();
+        await db.Tarefas.FirstOrDefaultAsync(x => x.Id == id) is { } t ? t : NotFound();
 
     [HttpPost]
     public async Task<ActionResult<Tarefa>> Create(TarefaInput i)
@@ -37,7 +37,7 @@ public class TarefasController(AppDbContext db, ActivityService log) : Controlle
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<Tarefa>> Update(Guid id, TarefaInput i)
     {
-        var t = await db.Tarefas.FindAsync(id);
+        var t = await db.Tarefas.FirstOrDefaultAsync(x => x.Id == id);
         if (t is null) return NotFound();
         if (!await db.Processos.AnyAsync(p => p.Id == i.ProcessoId))
             return BadRequest(new ErroDto("Processo não encontrado."));
@@ -50,7 +50,7 @@ public class TarefasController(AppDbContext db, ActivityService log) : Controlle
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var t = await db.Tarefas.FindAsync(id);
+        var t = await db.Tarefas.FirstOrDefaultAsync(x => x.Id == id);
         if (t is null) return NotFound();
         db.Tarefas.Remove(t);
         log.Log($"Tarefa “{t.Titulo}” excluída.");

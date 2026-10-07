@@ -2,6 +2,12 @@ using System.Text.Json.Serialization;
 
 namespace JurisTech.Api.Models;
 
+/// <summary>Registro que pertence a um escritório (conta de usuário). Cada escritório só vê os seus.</summary>
+public interface IOwned
+{
+    Guid UsuarioId { get; set; }
+}
+
 public class Usuario
 {
     public Guid Id { get; set; } = Guid.NewGuid();
@@ -10,9 +16,10 @@ public class Usuario
     [JsonIgnore] public string SenhaHash { get; set; } = "";
 }
 
-public class Cliente
+public class Cliente : IOwned
 {
     public Guid Id { get; set; } = Guid.NewGuid();
+    [JsonIgnore] public Guid UsuarioId { get; set; }
     public string NomeCompleto { get; set; } = "";
     public string Cpf { get; set; } = "";
     public string Email { get; set; } = "";
@@ -23,9 +30,10 @@ public class Cliente
     [JsonIgnore] public List<Processo> Processos { get; set; } = [];
 }
 
-public class Processo
+public class Processo : IOwned
 {
     public Guid Id { get; set; } = Guid.NewGuid();
+    [JsonIgnore] public Guid UsuarioId { get; set; }
     public string NumeroProcesso { get; set; } = "";
     public Guid ClienteId { get; set; }
     [JsonIgnore] public Cliente? Cliente { get; set; }
@@ -42,9 +50,10 @@ public class Processo
 }
 
 /// <summary>Status gravado é "Pendente" ou "Concluído"; "Atrasado" é calculado no frontend.</summary>
-public class Prazo
+public class Prazo : IOwned
 {
     public Guid Id { get; set; } = Guid.NewGuid();
+    [JsonIgnore] public Guid UsuarioId { get; set; }
     public Guid ProcessoId { get; set; }
     [JsonIgnore] public Processo? Processo { get; set; }
     public string Titulo { get; set; } = "";
@@ -54,9 +63,10 @@ public class Prazo
     public string Status { get; set; } = "Pendente";
 }
 
-public class Tarefa
+public class Tarefa : IOwned
 {
     public Guid Id { get; set; } = Guid.NewGuid();
+    [JsonIgnore] public Guid UsuarioId { get; set; }
     public Guid ProcessoId { get; set; }
     [JsonIgnore] public Processo? Processo { get; set; }
     public string Titulo { get; set; } = "";
@@ -67,9 +77,10 @@ public class Tarefa
     public string Status { get; set; } = "Pendente";
 }
 
-public class Atividade
+public class Atividade : IOwned
 {
     public Guid Id { get; set; } = Guid.NewGuid();
+    [JsonIgnore] public Guid UsuarioId { get; set; }
     public string Descricao { get; set; } = "";
     public DateTime Data { get; set; } = DateTime.UtcNow;
 }

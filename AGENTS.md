@@ -16,3 +16,4 @@
 - "Atrasado" deadline status is derived at read time (`getPrazoStatus`), not stored, so it never goes stale.
 - Backend source lives in `backend/JurisTech.Api` (ASP.NET Core 8 + EF Core SQL Server + JWT); not run inside Lovable; JSON contract must match `src/types`.
 - Schema changes go through EF migrations (`Data/Migrations`) plus a regenerated idempotent `backend/database/migrations.sql`; never `EnsureCreated`, because it bypasses migration history.
+- Multi-office isolation: every business entity implements `IOwned` (UsuarioId) with an EF global query filter + auto-stamp in `SaveChangesAsync`; never bypass with `IgnoreQueryFilters` or `FindAsync`-style lookups that skip filters, because one office must never see another's data.

@@ -36,3 +36,22 @@ public class ActivityService(AppDbContext db)
 {
     public void Log(string descricao) => db.Atividades.Add(new Atividade { Descricao = descricao });
 }
+
+/// <summary>Escritório (usuário) da requisição atual, lido do token JWT.</summary>
+public interface ICurrentUser
+{
+    Guid Id { get; }
+}
+
+public class HttpCurrentUser(IHttpContextAccessor http) : ICurrentUser
+{
+    public Guid Id
+    {
+        get
+        {
+            var u = http.HttpContext?.User;
+            var v = u?.FindFirstValue(ClaimTypes.NameIdentifier) ?? u?.FindFirstValue(JwtRegisteredClaimNames.Sub);
+            return Guid.TryParse(v, out var id) ? id : Guid.Empty;
+        }
+    }
+}

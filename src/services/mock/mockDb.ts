@@ -3,6 +3,7 @@ import { mockClients } from "./mockClients";
 import { mockProcesses } from "./mockProcesses";
 import { mockDeadlines } from "./mockDeadlines";
 import { mockTasks } from "./mockTasks";
+import { tokenStorage } from "../http/tokenStorage";
 
 interface Db {
   clientes: ClienteDto[];
@@ -12,10 +13,18 @@ interface Db {
   atividades: AtividadeDto[];
 }
 
-let db: Db | null = null;
+const dbs = new Map<string, Db>();
+const DEMO_EMAIL = "demo@jurismaistech.com";
 
 /** In-memory fictitious data, built lazily (dates are relative to today). */
+/** Each office (logged-in account) has its own data; only the demo account starts with samples. */
 export function getDb(): Db {
+  const owner = tokenStorage.getUser()?.email ?? DEMO_EMAIL;
+  let db = dbs.get(owner);
+  if (!db && owner !== DEMO_EMAIL) {
+    db = { clientes: [], processos: [], prazos: [], tarefas: [], atividades: [] };
+    dbs.set(owner, db);
+  }
   if (!db) {
     db = {
       clientes: mockClients(),
@@ -45,6 +54,7 @@ export function getDb(): Db {
         },
       ],
     };
+    dbs.set(owner, db);
   }
   return db;
 }
