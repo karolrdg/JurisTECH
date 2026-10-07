@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   AlertCircle,
   ArrowRight,
@@ -214,6 +214,13 @@ function LoginPage() {
                 {!formState.isSubmitting && <ArrowRight className="size-4" aria-hidden />}
               </Button>
             </form>
+
+            <p className="mt-6 text-center text-sm text-muted-foreground">
+              Não tem uma conta?{" "}
+              <Link to="/cadastro" className="font-semibold text-primary hover:underline">
+                Cadastre-se
+              </Link>
+            </p>
 
             {USE_MOCK && (
               <>
